@@ -36,6 +36,7 @@
     <nav class="top-nav" aria-label="Main navigation">
       <button class="nav-link active" data-target="art-section">Artworks</button>
       <button class="nav-link" data-target="pose-section">Pose atlas</button>
+      <button class="nav-link" data-target="creator-section">AI Creator</button>
       <button class="nav-link" data-target="saved-section">Saved <span class="saved-count" id="savedCount">0</span></button>
     </nav>
     <button class="icon-button" id="themeToggle" aria-label="Toggle colour theme" title="Toggle theme">
@@ -52,6 +53,7 @@
         <div class="hero-actions">
           <button class="button button-primary" data-scroll="art-section">Explore the gallery <span aria-hidden="true">↗</span></button>
           <button class="button button-quiet" data-scroll="pose-section">Open pose atlas</button>
+          <button class="button button-quiet" data-scroll="creator-section">Create artwork ✦</button>
         </div>
         <div class="hero-meta"><span>CURATED CLASSICS</span><i></i><span>ADULT FIGURE STUDIES</span><i></i><span>ARTIST REFERENCES</span></div>
       </div>
@@ -108,9 +110,72 @@
       </div>
     </section>
 
+    <section class="section wrap creator-section" id="creator-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">03 / THE CREATIVE STUDIO</p><h2>AI Creator <em>make it yours.</em></h2></div>
+        <p class="section-aside">Build a fine-art prompt, choose an available image model and create a new study. Generation uses your own approved Pollinations budget.</p>
+      </div>
+
+      <div class="creator-connect-card">
+        <div class="creator-connect-copy">
+          <p class="eyebrow">PRIVATE BY DESIGN / NO APP BACKEND</p>
+          <h3 id="creatorConnectionTitle">Connect your image studio</h3>
+          <p id="creatorConnectionText">Connect with Pollinations using your own App Key. You approve the spending limit and expiry before any generation. Nothing is charged by this gallery itself.</p>
+          <div class="creator-status" id="creatorAuthStatus" role="status" aria-live="polite"><span class="status-dot"></span><span>Not connected · prompt builder is ready</span></div>
+        </div>
+        <div class="creator-connect-controls">
+          <label class="creator-field"><span>Pollinations App Key <small>(public client ID)</small></span><input id="pollinationsClientId" type="text" inputmode="text" autocomplete="off" placeholder="pk_…" maxlength="160"></label>
+          <div class="creator-redirect-row"><button class="text-button" id="copyRedirectUri" type="button">Copy this page’s redirect URL</button><a href="https://enter.pollinations.ai/keys" target="_blank" rel="noopener">Create App Key ↗</a></div>
+          <div class="creator-budget-row">
+            <label class="creator-field"><span>Consent budget <small>(Pollen cap)</small></span><input id="creatorBudget" type="number" min="0.1" max="100" step="0.1" value="1"></label>
+            <label class="creator-field"><span>Key expiry</span><select id="creatorExpiry"><option value="1">1 day</option><option value="7" selected>7 days</option><option value="30">30 days</option></select></label>
+          </div>
+          <div class="creator-auth-actions"><button class="button button-primary" id="connectPollinations" type="button">Connect Pollinations</button><button class="button button-quiet hidden" id="disconnectPollinations" type="button">Disconnect</button></div>
+        </div>
+      </div>
+
+      <div class="creator-workspace">
+        <div class="creator-form-panel">
+          <div class="creator-panel-heading"><span>01</span><div><h3>Build your art direction</h3><p>Shape the scene before you render.</p></div></div>
+          <div class="creator-control-grid">
+            <label class="creator-field creator-span-2"><span>Art direction</span><select id="creatorPreset">
+              <option value="academic">Academic figure study</option>
+              <option value="draped">Draped classical study</option>
+              <option value="gesture">Gesture drawing session</option>
+              <option value="portrait">Fine-art portrait</option>
+              <option value="sculpture">Classical sculpture study</option>
+              <option value="duo">Adult duo composition</option>
+            </select></label>
+            <label class="creator-field"><span>Medium</span><select id="creatorMedium"><option>Charcoal on textured paper</option><option>Graphite pencil</option><option>Classical oil painting</option><option>Watercolour on paper</option><option>Contemporary digital fine art</option><option>Marble sculpture rendering</option></select></label>
+            <label class="creator-field"><span>Pose / composition</span><select id="creatorPose"><option>Standing contrapposto</option><option>Seated, relaxed posture</option><option>Reclining on a studio chaise</option><option>Kneeling, balanced gesture</option><option>Expressive full-body movement</option><option>Close-up portrait composition</option></select></label>
+            <label class="creator-field"><span>Lighting</span><select id="creatorLighting"><option>Soft north-window light</option><option>Rembrandt chiaroscuro</option><option>Warm studio softbox</option><option>Low-key cinematic light</option><option>Gentle natural daylight</option></select></label>
+            <label class="creator-field"><span>Colour palette</span><select id="creatorPalette"><option>Warm sepia, ivory and umber</option><option>Monochrome charcoal and paper</option><option>Deep burgundy and warm ivory</option><option>Muted earth tones</option><option>Cool slate and silver</option><option>Classical ochre and Venetian red</option></select></label>
+            <label class="creator-field creator-span-2"><span>Your creative direction</span><textarea id="creatorSubject" rows="3" maxlength="700" placeholder="Describe the expression, gesture, setting, mood or details you want to study…">A confident adult art model in a calm studio, elegant posture and expressive silhouette</textarea></label>
+            <label class="creator-field creator-span-2"><span>Image model <small>(live official catalogue)</small></span><select id="creatorModel"><option value="">Loading available models…</option></select><small class="field-help" id="creatorModelNote">The live catalogue supplies available models. Model pricing can vary by image and settings.</small></label>
+            <label class="creator-field creator-span-2"><span>Output size</span><select id="creatorSize"><option value="1024x1024">Square · 1024 × 1024</option><option value="768x1024">Portrait · 768 × 1024</option><option value="1024x768">Landscape · 1024 × 768</option><option value="1024x1536">Tall poster · 1024 × 1536</option></select></label>
+          </div>
+          <div class="creator-form-actions"><button class="button button-quiet" id="buildCreatorPrompt" type="button">Build prompt</button><button class="button button-primary" id="generateCreatorImage" type="button" disabled>Generate artwork ✦</button></div>
+          <p class="creator-helper">Prompt building and copying are free. Image generation requires a connected Pollinations account and may use your approved Pollen budget. Check the <a href="https://gen.pollinations.ai/image/models" target="_blank" rel="noopener">live model catalogue</a> before generating.</p>
+        </div>
+
+        <div class="creator-result-panel">
+          <div class="creator-panel-heading"><span>02</span><div><h3>Your creative brief</h3><p>Edit the final prompt before sending it.</p></div></div>
+          <label class="creator-field"><span>Final image prompt</span><textarea id="creatorPrompt" rows="12" maxlength="3000" placeholder="Tap Build prompt to compose your art direction…"></textarea></label>
+          <div class="creator-prompt-actions"><button class="button button-quiet" id="copyCreatorPrompt" type="button">Copy prompt</button><button class="button button-quiet" id="shuffleCreatorIdea" type="button">New inspiration ↻</button></div>
+          <div class="creator-output" id="creatorOutput" aria-live="polite">
+            <div class="creator-output-placeholder"><span>✦</span><strong>Your next masterpiece starts here.</strong><p>Generated artwork will appear in this space.</p></div>
+            <img id="creatorOutputImage" class="hidden" alt="AI-generated non-explicit fine-art image">
+            <div class="creator-output-actions hidden" id="creatorOutputActions"><button class="button button-primary" id="downloadCreatorImage" type="button">Download image ↓</button><button class="button button-quiet" id="openCreatorImage" type="button">Open full size ↗</button></div>
+          </div>
+          <div class="creator-generation-status" id="creatorGenerationStatus" role="status" aria-live="polite">Ready when you are. No image has been generated yet.</div>
+          <p class="creator-privacy-note">Privacy: your prompt and generation request go directly from this browser to Pollinations. This static gallery has no server and does not store your generated image or access token in its files. The temporary approved token is kept in this tab’s session only. Provider terms, moderation and model availability apply.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section wrap saved-section" id="saved-section">
       <div class="section-heading">
-        <div><p class="eyebrow">03 / YOUR PRIVATE SHELF</p><h2>Saved <em>for later.</em></h2></div>
+        <div><p class="eyebrow">04 / YOUR PRIVATE SHELF</p><h2>Saved <em>for later.</em></h2></div>
         <p class="section-aside">Your favourites stay in this browser. No account and no server storage in this Phase 2 build.</p>
       </div>
       <div class="saved-grid" id="savedGrid"></div>
@@ -122,7 +187,7 @@
     <a class="brand footer-brand" href="#top"><span class="brand-monogram">NC<span>•</span></span><span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span></a>
     <p>Bold art. Raw beauty. Zero boring rules.</p>
     <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener">Sources & licences</a><a href="README.md" target="_blank" rel="noopener">Project notes</a></div>
-    <small class="copyright">PHASE 2 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
+    <small class="copyright">PHASE 3 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
   </footer>
 
   <div class="modal-backdrop hidden" id="artModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -149,5 +214,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js" defer></script>
+  <script src="creator.js" defer></script>
 </body>
 </html>

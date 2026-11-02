@@ -48,3 +48,14 @@ The repository's generator interface and controls were reviewed as feature refer
 ## General notice
 
 This is an adult-oriented academic/classical fine-art reference gallery. The current sample is intended for non-explicit presentation. All third-party titles, artist names, records and media remain subject to their source rights and terms.
+
+## Phase 3 Creator service documentation
+
+The AI Creator integration is implemented against Pollinations' documented user-authorized BYOP / OAuth PKCE flow. The application does not include a developer secret key. A public App Key identifies the client; the user authorizes a scoped key and chooses the budget/expiry. All generation costs and model restrictions are controlled by Pollinations and the selected model.
+
+- Pollinations API documentation: https://gen.pollinations.ai/
+- Pollinations BYOP / App Key guidance: https://github.com/pollinations/pollinations/blob/main/enter.pollinations.ai/POLLEN_FAQ.md
+- OAuth PKCE guide and discovery notes: https://github.com/pollinations/pollinations/blob/main/enter.pollinations.ai/AGENTS.md
+- Official image-model catalogue: https://gen.pollinations.ai/image/models
+
+Pollinations is a third-party service with its own terms, model restrictions, moderation and data handling. Prompts and generation requests are sent directly to Pollinations. Review its current policies before use. This project does not claim that all models or all image generations are free.
