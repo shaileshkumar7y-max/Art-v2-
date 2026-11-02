@@ -1,143 +1,110 @@
-# Naked Canvas — Phase 5 Brand & Art Library Build
+# BLACKED PUSSY INNERWEAR — Halloween Mega Merge V1
 
-A lightweight, Android-first static fine-art gallery with a curated open-access figure-art library, pose atlas and AI Creator studio. The project preserves the Phase 2 gallery and Phase 3 Creator, includes 52 curated ArtFlip public-domain figure-art records, 20 locally bundled WebP thumbnails, live search across three museum open-access APIs, and 19 locally bundled user-generated ChatGPT Library figure-study artworks.
+An Android-first static innerwear brand experience with a curated fine-art gallery, pose atlas, AI Creator studio and a seasonal Halloween 2027 campaign. This incremental release uses `Art-v2-` as the base, preserves its existing gallery and Creator modules, and adds the BLACKED PUSSY brand identity and Halloween campaign hub. It also audits the New-product- and Art- repositories as feature and asset sources without copying complete application roots over one another.
 
 ## What is included
 
-### Gallery (preserved from Phase 2)
+### Existing gallery and Creator (preserved)
 - Artwork grid with title, artist, date, medium and museum source.
 - Artwork search and category filters.
 - Artwork viewer with previous/next controls, metadata and official museum-record link.
-- Pose atlas with search, category filters and a five-angle viewer.
-- Browser-local favourites, 18+ acknowledgement, light/dark theme and keyboard shortcuts.
+- Pose Atlas with search, category filters and a five-angle viewer.
+- Browser-local favourites, 18+ self-attestation, light/dark theme and English/Hinglish copy switch.
+- AI Creator with prompt builder, live model catalogue and optional user-authorised Pollinations BYOP/OAuth flow.
+- My Studio shelf and museum/open-access Collections browser.
 
-### Art Collections (introduced in Phase 4, expanded in Phase 5)
-- A built-in index of 52 ArtFlip figure-art records verified from their metadata for `isPublicDomain: true` and a usable museum-hosted image URL.
-- Female and male figure studies, reclining poses, bathers, mythological/classical works, photography, drawings and sculpture/object records.
-- Live search across The Met, Art Institute of Chicago and Cleveland Museum open-access catalogues.
-- Subject chips, source filter, title/artist sorting, paginated load-more and artwork detail viewer.
-- Artwork cards and viewer reuse the existing Saved shelf.
-- Duplicate handling checks museum record IDs and normalized title + artist; the four Phase 2 starter records are explicitly excluded.
-- Phase 5 bundles 20 small 100×100 WebP previews from ArtFlip’s CC0 thumbnail library. They are local card previews only; full-size artwork remains on the originating museum host and opens from its source URL. The 52 metadata records remain lightweight.
+### Brand transformation (Phase 2)
+- Public brand name: **BLACKED PUSSY INNERWEAR**.
+- Descriptor: **INNERWEAR · ART AFTER DARK**.
+- Midnight black, charcoal/plum, deep wine, muted rose and antique gold colour system.
+- Existing Playfair Display + DM Sans typography and theme toggle retained.
+- Existing application modules, browser storage keys, gallery data and user favourites retained.
 
-### Local image previews (new in Phase 5)
-- 20 small WebP artworks from ArtFlip’s CC0 thumbnail library are included under `assets/artflip-thumbs/`.
-- These 100×100 files are lightweight previews; larger images remain linked from official museum hosts.
-- The four-image strip on the homepage and the ArtFlip collection cards reuse these same local assets.
+### Halloween 2027 experience (Phase 3)
+- Seasonal campaign hero and countdown to 31 October 2027 (India time, UTC+05:30).
+- Three editorial directions: Midnight Lace, Velvet Shadow and Ember Rose.
+- Campaign wall using existing New-product- image assets.
+- Local Mystery Mood Wheel with six moods and links to matching gallery/studio sections.
+- Mobile-first layouts, reduced-motion support and safe failed-image handling.
 
-### Brand identity (new in Phase 5)
-- Refined charcoal, wine, warm-ivory and muted-gold colour system.
-- Playfair Display + DM Sans type pairing, consistent monogram and brand language.
-- English / Hinglish copy switch with device-local preference; no translation service or backend.
-- Premium editorial manifesto and a featured strip using locally bundled ArtFlip thumbnails.
-- Tone guidance: confident, flirty and witty in optional Hinglish copy; clean navigation, respectful rights text and non-explicit art framing.
+### Three-repository merger plan (Phase 1)
+- `Art-v2-` remains the application base.
+- `New-product-` is the source for selected innerwear/editorial images and later product/fit-guide integration.
+- `Art-` remains the source for a later 47-artwork / 9-collection expansion.
+- The separate `show-house.html` mini-game experience is not merged wholesale into the brand's main shopping/art navigation.
 
-### AI Creator (new in Phase 3)
-- Fine-art prompt builder with six presets: academic figure study, draped classical study, gesture drawing, portrait, sculpture study and adult duo composition.
-- Controls for medium, pose/composition, lighting, palette and output size.
-- Editable final prompt, copy-to-clipboard and inspiration shuffle.
-- Live discovery of official Pollinations image models; the model list is not hard-coded.
-- Optional Pollinations sign-in using OAuth authorization-code + PKCE (Bring Your Own Pollen / BYOP).
-- User-selected budget cap and key expiry are passed to the Pollinations consent screen.
-- Generated image preview, open-full-size and download actions.
-- Adult-only, non-explicit fine-art framing and basic prompt checks against minor/explicit-sex terms.
-- No application backend, no server-held credentials, no framework or build tooling.
+## Image paths and compatibility repair
+
+The inspected `Art-v2-` tree stores the 39 WebP files and two PWA PNG icons at repository root. The older source used nested references such as `assets/my-studio/`, `assets/artflip-thumbs/` and `icons/`, although those nested directories are absent from the inspected tree.
+
+This release corrects those paths:
+- `library-art.js` points to the root-level 19 My Studio WebP files.
+- `asset-path-fix.js` remaps the 20 ArtFlip thumbnail references and repairs legacy Saved Shelf image URLs.
+- `index.html` and `manifest.webmanifest` use root-level `app-192.png` / `app-512.png` icon paths.
+- The service-worker cache is advanced to v8 and includes the new Halloween assets and asset compatibility file.
+
+Halloween campaign images are loaded from the existing public `New-product-` repository by their current filenames. They are not copied or duplicated in this update package. Those campaign images require an internet connection; the service worker does not cache third-party image hosts.
 
 ## Important: AI generation is not automatically free
 
-Pollinations requires an authorized generation key for current API requests. New browser apps should use its BYOP flow: register a publishable App Key (`pk_...`), let the user approve a scoped key, then send generation calls with that temporary user-authorized key. A `pk_` value identifies the app; it is **not** itself a generation credential.
-
-The user chooses the maximum Pollen budget and expiry in Pollinations' own consent screen. Actual image cost depends on the selected model and its current pricing. Check the live [image model catalogue](https://gen.pollinations.ai/image/models) and your Pollinations balance before generating. This project does not promise a free quota or guarantee a zero-cost image.
-
-### Connect Pollinations on the published site
-
-1. Publish this static folder on an HTTPS host (for example, GitHub Pages). OAuth will not work from a `file://` URL.
-2. Open the site and go to **AI Creator**. Tap **Copy this page’s redirect URL**.
-3. Sign in to [Pollinations App Keys](https://enter.pollinations.ai/keys), create an App Key for this web app, and add the exact copied redirect URL to that app's allowed redirect URLs. Enable BYOP / user authorization for the app.
-4. Copy the resulting public `pk_...` App Key into the Creator and choose a budget cap and expiry.
-5. Tap **Connect Pollinations**. Review the Pollinations consent screen carefully and approve only the budget/model permissions you are comfortable with.
-6. Return to the Creator. Choose an available model, review the prompt, then generate.
-
-The redirect URL is tied to the published site path. When moving the site to a different domain or path, update the App Key's registered redirect URL.
+Pollinations requires an authorised generation key for current API requests. The user must create a publishable App Key (`pk_...`), approve their own scoped key, and choose the budget and expiry at the provider's consent screen. A `pk_` value identifies the app; it is not itself a generation credential. Image generation is not guaranteed free and costs depend on the chosen model and provider terms.
 
 ## Credential and privacy handling
 
-- The public App Key (`pk_...`) is stored in this browser's `localStorage` so it does not need to be re-entered every visit. It is an OAuth client identifier, not a spend credential.
-- The scoped user-authorized access token is stored in `sessionStorage` only, for the current browser tab session. It is not written into the source code, ZIP, `localStorage`, or any app server.
-- Disconnect removes the tab's stored access token. The user can also revoke/edit approved keys from their Pollinations account.
-- The prompt and image request go directly from the browser to Pollinations. Do not enter personal or confidential information into prompts.
-- Generated images are not uploaded to this project or persisted by its app code. They are displayed from the returned URL or in-memory image blob.
-- This is a static client-side design, not a security boundary. Anyone who can use a device/browser session should be able to access its currently connected session. Disconnect when finished on a shared device.
+- The public App Key is a client identifier; the scoped user-authorised token is kept in the current browser tab session only.
+- The app has no application backend and does not include a developer API secret.
+- The prompt and generation request are sent directly from the browser to Pollinations.
+- Saved artworks, preferences and local campaign-wheel choices remain on this device; there is no cross-device synchronisation in this static build.
+- This is not a server-side security boundary. Disconnect authorised services on shared devices.
 
-## Content scope
+## Content scope and age notice
 
-The Creator is framed for clearly adult, non-explicit academic and classical fine art. It includes a basic client-side prompt check for references to minors and explicit sexual activity, but that check is not a moderation system and can be bypassed. Pollinations and individual model policies/moderation still apply. Do not use this app to generate sexual content involving minors or explicit sexual imagery.
+The gallery contains adult-oriented, non-explicit fine-art figure-study references and innerwear campaign/editorial imagery. The 18+ entry screen is self-attestation only; it does not verify age or identity. Keep campaign wording and imagery non-explicit, respectful and compliant with the host's current policies.
 
 ## Run locally
 
-No build tooling is needed.
+No build tooling is required. From the repository root:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000`. Gallery and prompt-building features can be explored locally. Pollinations OAuth requires a valid registered redirect URI; a public HTTPS deployment is the intended connection flow.
+Then open `http://localhost:8000`. Pollinations OAuth requires HTTPS and an exactly registered redirect URL; the published GitHub Pages URL is the intended connection flow.
 
 ## GitHub Pages deployment
 
-Upload all files in this folder to the root of a repository and select **Settings → Pages → Deploy from a branch → main / root**. This folder is standalone and does not change any existing project repository. Register the final Pages URL as the Pollinations App Key redirect URI after deployment.
-
-## Current known limits
-
-- The original starter gallery remains 4 artwork entries and 8 Shisei pose sets. Phase 5 carries forward 52 curated ArtFlip figure-art picks, 20 local previews and live museum search, not a mirror of any full source repository.
-- The 20 bundled ArtFlip WebP previews are 100×100 pixels; larger full-size artwork remains remotely hosted by source museums and requires internet access. ArtFlip’s 6,280-record general catalogue is not a 6,280-item nude-art catalogue.
-- AI generation requires the user to create/configure a Pollinations App Key and approve their own budget. No developer key is included.
-- The real OAuth, model catalogue and generation calls were not live-tested from this container. Browser CORS, account balance, moderation, region/model availability and provider behaviour must be verified on the published HTTPS site.
-- Browser rendering, live museum API/CORS behaviour and physical Android touch testing remain outstanding; headless Chromium was not usable in the prior Phase 2 runtime.
-- An 18+ self-acknowledgement is not identity or age verification.
+Upload the contents of the update ZIP to the root of the existing `Art-v2-` repository, replacing only files listed in `UPLOAD-INSTRUCTIONS.md`. Keep the existing application files, root artwork images, icons, `.nojekyll`, museum documentation and all other unlisted files. Under **Settings → Pages → Build and deployment**, use **Deploy from a branch**, branch `main`, folder `/(root)`.
 
 ## Smoke checks
+
+Run from the repository root:
 
 ```bash
 node --check app.js
 node --check creator.js
 node --check collections.js
 node --check artflip-figure-index.js
-node --check brand-voice.js
-python -m http.server 8000
+node --check asset-path-fix.js
+node --check library-art.js
+node --check halloween.js
+python -m json.tool manifest.webmanifest >/dev/null
 ```
 
-See `PHASE_2_QA.md`, `PHASE_3_QA.md`, `PHASE_4_QA.md` and `PHASE_5_QA.md` for performed checks and remaining manual tests. See `PHASE_5_BRAND_GUIDE.md` and `PHASE_5_MERGE_GUIDE.md` for Phase 5 details. See `PHASE_3_CREATOR_SETUP.md` for the Pollinations setup checklist and `SOURCES_AND_LICENCES.md` for collection provenance.
+After publishing, test the site twice on Android Chrome so service-worker v8 can activate. Check the Halloween countdown and wheel, brand navigation, gallery search/viewer, Collections thumbnails, My Studio shelf, pose angles, Creator prompt builder, light/dark toggle, Hinglish toggle and Saved Shelf. Live OAuth/generation, live museum APIs and physical Android touch acceptance remain manual tests.
 
+## Existing known limits
 
-## Phase 6 — Android / mobile performance
+- The starter shelf remains four artwork records and eight pose sets; the broader Collections browser uses curated museum records and live museum APIs.
+- Museum-hosted full-size works remain remote and depend on museum availability and network access. Confirm provenance and rights at the museum record before using any artwork in paid advertising.
+- Pollinations OAuth, current models, CORS, account balance and generation provider behaviour need live HTTPS testing.
+- There is no product checkout/cart, online voting, shared account, admin analytics, server-side age verification or server-side moderation in Phases 1–3.
+- The Halloween campaign assets reference six existing image files from `New-product-`; the repo must remain public and those filenames must not be changed unless URLs are updated.
 
-- The initial eleven original figure-study images selected from the user's ChatGPT Library are bundled locally in `assets/my-studio/` as optimized WebP (not ArtFlip images).
-- Phase 7 adds eight more distinct ChatGPT Library generations, bringing the My Studio Shelf to nineteen original compositions. The new eight source PNGs total about 25.90 MiB; their WebP derivatives total about 1.30 MiB.
-- All nineteen WebP files total about 4.34 MiB. The original Library PNG files are not overwritten or deleted; only optimized copies are included in this app. Gallery cards use lazy loading and asynchronous decoding.
-- A versioned service worker caches same-origin HTML, CSS, JavaScript, the manifest, icons, the generated Studio images, and the small local open-access thumbnail set for offline browsing.
-- External museum APIs, museum image hosts, Shisei images, Pollinations OAuth and generation endpoints are intentionally not cached. No tokens or API credentials enter the cache.
-- A web app manifest and standalone icons support installation on compatible Android browsers.
-- Collections and studio art have touch-friendly controls, responsive two-column mobile cards, modal swipe navigation, keyboard actions and reduced-motion support.
+## Phase reports
 
-The age gate is a self-attestation prompt, not identity or age verification.
-
-
-## Phase 7 — final hardening, regression checks and additional Library art
-
-- Added eight additional, visually inspected, distinct figure-study compositions from the user's ChatGPT Library: Classical Male Anatomy Study Sheet, Vintage Graphite Figure Study Sheet, Sepia Bathhouse Figure Studies, Classical Atelier Figure Study Sheet, Classical Triptych Life Drawing Studies, Monochrome Figure Study Sketchbook, Classical Charcoal Study of Two Poses, and Graphite Anatomy Study — Ideas 8 and 9.
-- My Studio Shelf now contains nineteen AI-generated works in total. They are clearly labelled as user-generated ChatGPT Library art, not museum/public-domain items.
-- Added an HTML meta Content Security Policy and strict-origin-when-cross-origin referrer policy. Because GitHub Pages does not provide per-project custom response headers, a meta policy is a client-side defence-in-depth layer, not a substitute for HTTP response headers. Meta CSP cannot express every directive (for example, `frame-ancestors`).
-- Saved shelf records are validated and normalised before rendering; invalid IDs, unsafe image schemes and malformed localStorage shapes are discarded from the render model.
-- Museum API image and record URLs are constrained to HTTPS before being placed in the gallery.
-- Pollinations OAuth discovery endpoints are pinned to the official HTTPS origin; callback state and same-origin redirect are checked; only a short-lived `sk_` token is accepted and kept in sessionStorage; generated media URLs are restricted to Pollinations HTTPS hosts.
-- Service-worker cache is versioned `v7`. Essential shell files are precached as a required group; optional local artworks are cached separately so one optional asset failure cannot prevent the app shell from installing. External APIs, OAuth requests, remote images and access tokens are not cached.
-- The 18+ gate is a self-attestation only. It does not verify age or identity.
-
-### Phase 7 release limits
-
-- This is a static GitHub Pages-compatible app. There is no server-side session, server-side moderation, admin console or server-side security boundary.
-- The HTML CSP is intentionally compatible with the project's external fonts, image hosts and API endpoints. Its `img-src https:` allowance is broader than a strict host allow-list because the museum catalogue uses multiple image hosts; tighten that list only after live museum API URLs have been audited.
-- OAuth provider behaviour, Pollinations CORS/token exchange, current model catalogue, real image generation, and all three museum APIs still require a live HTTPS/browser test.
-- Browser automation and physical Android testing were not completed in this environment. See `PHASE_7_QA.md` for exact pass/pending status.
-- Before a public deployment, inspect the generated Library images and confirm that you intend these artistic-nudity images to be visible to anyone who can access the public repository/site. Review the hosting provider's current content rules before publishing.
+- `PHASE_1_AUDIT.md` — three-repository audit, feature map and root asset-path defect.
+- `PHASE_2_BRAND_GUIDE.md` — brand identity and visual system.
+- `PHASE_3_HALLOWEEN_QA.md` — seasonal features, source image list and pending live checks.
+- `PHASES_1_3_CHANGELOG.md` — concise phase changelog.
+- `UPLOAD-INSTRUCTIONS.md` — changed/new file list and Android upload steps.
+- `SOURCES_AND_LICENCES.md` — existing source and rights documentation.

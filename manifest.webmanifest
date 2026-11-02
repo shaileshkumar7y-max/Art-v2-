@@ -1,31 +1,17 @@
 {
   "id": "./",
-  "name": "Naked Canvas \u2014 Art After Dark",
-  "short_name": "Naked Canvas",
-  "description": "A mobile-first, non-explicit fine-art and figure-study reference gallery.",
+  "name": "BLACKED PUSSY INNERWEAR — Halloween Mega Merge",
+  "short_name": "BLACKED PUSSY",
+  "description": "A mobile-first innerwear brand experience with a curated art archive, creative studio and seasonal Halloween edit.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#120f11",
-  "theme_color": "#120f11",
-  "categories": [
-    "art",
-    "education",
-    "lifestyle"
-  ],
+  "background_color": "#100a0e",
+  "theme_color": "#100a0e",
+  "categories": ["art", "lifestyle", "shopping"],
   "icons": [
-    {
-      "src": "icons/app-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/app-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
