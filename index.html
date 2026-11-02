@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#151111">
+  <meta name="description" content="Naked Canvas — a curated fine-art and figure-study reference gallery.">
+  <title>Naked Canvas — Art After Dark</title>
+  <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://images.metmuseum.org" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="gate-card">
+      <div class="brand-mark">NC<span>•</span></div>
+      <p class="eyebrow">ART AFTER DARK</p>
+      <h1 id="gateTitle">A little bold.<br><em>A lot of art.</em></h1>
+      <p class="gate-copy">This gallery contains adult classical figure studies and non-explicit artistic nudity. Please confirm that you are 18 or older.</p>
+      <button class="button button-primary button-wide" id="confirmAge">I’m 18 or older — enter</button>
+      <p class="gate-foot">Academic fine art only. Keep it respectful, keep it legal.</p>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Naked Canvas home">
+      <span class="brand-monogram">NC<span>•</span></span>
+      <span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span>
+    </a>
+    <nav class="top-nav" aria-label="Main navigation">
+      <button class="nav-link active" data-target="art-section">Artworks</button>
+      <button class="nav-link" data-target="pose-section">Pose atlas</button>
+      <button class="nav-link" data-target="saved-section">Saved <span class="saved-count" id="savedCount">0</span></button>
+    </nav>
+    <button class="icon-button" id="themeToggle" aria-label="Toggle colour theme" title="Toggle theme">
+      <span aria-hidden="true">◐</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> THE ART OF THE HUMAN FORM</p>
+        <h1>Beauty without<br><em>the boring rules.</em></h1>
+        <p class="hero-lede">A curated corner for classical fine art, confident figure studies and the craft behind every composition.</p>
+        <div class="hero-actions">
+          <button class="button button-primary" data-scroll="art-section">Explore the gallery <span aria-hidden="true">↗</span></button>
+          <button class="button button-quiet" data-scroll="pose-section">Open pose atlas</button>
+        </div>
+        <div class="hero-meta"><span>CURATED CLASSICS</span><i></i><span>ADULT FIGURE STUDIES</span><i></i><span>ARTIST REFERENCES</span></div>
+      </div>
+      <div class="hero-art" aria-label="Editorial art-gallery cover">
+        <div class="hero-frame">
+          <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+          <div class="hero-stamp">FORM<br>MEETS<br>FEELING</div>
+          <div class="hero-glow"></div>
+          <div class="hero-caption"><span>VOL. 01</span><span>THE HUMAN FORM</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stat-strip wrap" aria-label="Gallery summary">
+      <div><strong id="artCount">04</strong><span>CURATED ARTWORKS</span></div>
+      <div><strong id="poseCount">08</strong><span>STARTER POSE SETS</span></div>
+      <div><strong>05</strong><span>CAMERA ANGLES</span></div>
+      <div><strong>18+</strong><span>ADULT ART SPACE</span></div>
+    </section>
+
+    <section class="section wrap" id="art-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / THE COLLECTION</p><h2>Artworks <em>worth a closer look.</em></h2></div>
+        <p class="section-aside">Classical works selected for composition, line, light and the timeless study of the human form.</p>
+      </div>
+      <div class="toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="artSearch" type="search" placeholder="Search artist, title or medium…" autocomplete="off"><kbd>/</kbd></label>
+        <div class="filter-row" id="artFilters" aria-label="Filter artworks">
+          <button class="filter-chip active" data-filter="all">All works</button>
+          <button class="filter-chip" data-filter="painting">Paintings</button>
+          <button class="filter-chip" data-filter="drawing">Drawings & prints</button>
+        </div>
+      </div>
+      <div class="art-grid" id="artGrid" aria-live="polite"></div>
+      <p class="empty-state hidden" id="artEmpty">No artworks match that search. Try another artist or keyword.</p>
+      <p class="section-note">Artwork images are loaded from the source gallery; each card keeps the museum record and rights information attached.</p>
+    </section>
+
+    <section class="pose-section" id="pose-section">
+      <div class="wrap section">
+        <div class="section-heading">
+          <div><p class="eyebrow">02 / THE STUDY ROOM</p><h2>Pose atlas <em>from every angle.</em></h2></div>
+          <p class="section-aside">Faceless mannequin references for studying gesture, balance and silhouette. Choose a pose, then switch viewpoints.</p>
+        </div>
+        <div class="toolbar pose-toolbar">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="poseSearch" type="search" placeholder="Search pose or movement…" autocomplete="off"></label>
+          <div class="filter-row" id="poseFilters" aria-label="Filter pose categories">
+            <button class="filter-chip active" data-filter="all">All poses</button>
+            <button class="filter-chip" data-filter="sitting">Sitting</button><button class="filter-chip" data-filter="standing">Standing</button><button class="filter-chip" data-filter="kneeling">Kneeling</button><button class="filter-chip" data-filter="lying">Lying</button><button class="filter-chip" data-filter="dynamic">Dynamic</button>
+          </div>
+        </div>
+        <div class="pose-grid" id="poseGrid" aria-live="polite"></div>
+        <p class="empty-state hidden" id="poseEmpty">No pose sets found. Try a different search.</p>
+      </div>
+    </section>
+
+    <section class="section wrap saved-section" id="saved-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">03 / YOUR PRIVATE SHELF</p><h2>Saved <em>for later.</em></h2></div>
+        <p class="section-aside">Your favourites stay in this browser. No account and no server storage in this Phase 2 build.</p>
+      </div>
+      <div class="saved-grid" id="savedGrid"></div>
+      <p class="empty-state" id="savedEmpty">Nothing saved yet. Tap the heart on an artwork or pose to keep it here.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <a class="brand footer-brand" href="#top"><span class="brand-monogram">NC<span>•</span></span><span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span></a>
+    <p>Bold art. Raw beauty. Zero boring rules.</p>
+    <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener">Sources & licences</a><a href="README.md" target="_blank" rel="noopener">Project notes</a></div>
+    <small class="copyright">PHASE 2 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
+  </footer>
+
+  <div class="modal-backdrop hidden" id="artModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="art-modal">
+      <button class="modal-close" id="closeArtModal" aria-label="Close artwork viewer">×</button>
+      <button class="modal-arrow modal-prev" id="prevArtwork" aria-label="Previous artwork">‹</button>
+      <div class="modal-image-wrap"><img id="modalImage" alt=""><span class="image-index" id="imageIndex"></span></div>
+      <div class="modal-info"><p class="eyebrow" id="modalMuseum">MUSEUM COLLECTION</p><h2 id="modalTitle"></h2><p class="modal-artist" id="modalArtist"></p><dl id="modalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="modalSave">♡ Save artwork</button><a class="button button-quiet" id="sourceLink" href="#" target="_blank" rel="noopener">View museum record ↗</a></div><p class="rights-note" id="modalRights"></p></div>
+      <button class="modal-arrow modal-next" id="nextArtwork" aria-label="Next artwork">›</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="poseModal" role="dialog" aria-modal="true" aria-labelledby="poseModalTitle">
+    <div class="pose-modal">
+      <button class="modal-close" id="closePoseModal" aria-label="Close pose viewer">×</button>
+      <div class="pose-modal-header"><div><p class="eyebrow">POSE REFERENCE / <span id="poseModalId"></span></p><h2 id="poseModalTitle"></h2><p id="poseModalDesc"></p></div><button class="heart-button" id="poseModalSave" aria-label="Save pose">♡</button></div>
+      <div class="pose-stage" id="poseStage"><img id="poseModalImage" alt="Adult mannequin pose reference"><span class="pose-angle-label" id="poseAngleLabel">FRONT VIEW</span></div>
+      <div class="angle-switcher" id="angleSwitcher" aria-label="Choose camera angle">
+        <button class="angle-chip active" data-angle="front">Front</button><button class="angle-chip" data-angle="diag">3/4 view</button><button class="angle-chip" data-angle="side">Side</button><button class="angle-chip" data-angle="above">Above</button><button class="angle-chip" data-angle="below">Below</button>
+      </div>
+      <p class="rights-note">Pose line-art reference: Shisei project · CC0 1.0 image licence. Missing angle views are disabled.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
