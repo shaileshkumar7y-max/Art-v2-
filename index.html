@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#151111">
+  <meta name="theme-color" content="#120f11">
   <meta name="description" content="Naked Canvas — a curated fine-art and figure-study reference gallery.">
   <title>Naked Canvas — Art After Dark</title>
   <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
@@ -34,12 +34,13 @@
       <span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span>
     </a>
     <nav class="top-nav" aria-label="Main navigation">
-      <button class="nav-link active" data-target="art-section">Artworks</button>
-      <button class="nav-link" data-target="collection-section">Collections</button>
-      <button class="nav-link" data-target="pose-section">Pose atlas</button>
-      <button class="nav-link" data-target="creator-section">AI Creator</button>
-      <button class="nav-link" data-target="saved-section">Saved <span class="saved-count" id="savedCount">0</span></button>
+      <button class="nav-link active" data-target="art-section"><span data-voice data-en="Artworks" data-hi="Art gallery">Artworks</span></button>
+      <button class="nav-link" data-target="collection-section"><span data-voice data-en="Collections" data-hi="Art library">Collections</span></button>
+      <button class="nav-link" data-target="pose-section"><span data-voice data-en="Pose atlas" data-hi="Pose room">Pose atlas</span></button>
+      <button class="nav-link" data-target="creator-section"><span data-voice data-en="AI Creator" data-hi="Art Creator">AI Creator</span></button>
+      <button class="nav-link" data-target="saved-section"><span data-voice data-en="Saved" data-hi="My shelf">Saved</span> <span class="saved-count" id="savedCount">0</span></button>
     </nav>
+    <button class="voice-toggle" id="voiceToggle" type="button" aria-label="Switch to Hinglish" title="Switch language">EN</button>
     <button class="icon-button" id="themeToggle" aria-label="Toggle colour theme" title="Toggle theme">
       <span aria-hidden="true">◐</span>
     </button>
@@ -48,16 +49,17 @@
   <main id="top">
     <section class="hero wrap">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="eyebrow-line"></span> THE ART OF THE HUMAN FORM</p>
+        <p class="eyebrow"><span class="eyebrow-line"></span><span data-voice data-en="THE ART OF THE HUMAN FORM" data-hi="FORM KA ART. ARTIST KA RESPECT.">THE ART OF THE HUMAN FORM</span></p>
         <h1>Beauty without<br><em>the boring rules.</em></h1>
-        <p class="hero-lede">A curated corner for classical fine art, confident figure studies and the craft behind every composition.</p>
+        <p class="hero-lede" data-voice data-en="A curated corner for classical fine art, confident figure studies and the craft behind every composition." data-hi="Classical art, confident figure studies aur composition ka poora game — bina cheap drama ke.">A curated corner for classical fine art, confident figure studies and the craft behind every composition.</p>
         <div class="hero-actions">
-          <button class="button button-primary" data-scroll="art-section">Explore the gallery <span aria-hidden="true">↗</span></button>
-          <button class="button button-quiet" data-scroll="collection-section">Explore art library</button>
-          <button class="button button-quiet" data-scroll="pose-section">Open pose atlas</button>
-          <button class="button button-quiet" data-scroll="creator-section">Create artwork ✦</button>
+          <button class="button button-primary" data-scroll="art-section"><span data-voice data-en="Explore the gallery" data-hi="Gallery dekho">Explore the gallery</span> <span aria-hidden="true">↗</span></button>
+          <button class="button button-quiet" data-scroll="collection-section" data-voice data-en="Explore art library" data-hi="Art library kholo">Explore art library</button>
+          <button class="button button-quiet" data-scroll="pose-section" data-voice data-en="Open pose atlas" data-hi="Pose atlas kholo">Open pose atlas</button>
+          <button class="button button-quiet" data-scroll="creator-section" data-voice data-en="Create artwork ✦" data-hi="Art banao ✦">Create artwork ✦</button>
         </div>
-        <div class="hero-meta"><span>CURATED CLASSICS</span><i></i><span>ADULT FIGURE STUDIES</span><i></i><span>ARTIST REFERENCES</span></div>
+        <div class="hero-meta"><span data-voice data-en="CURATED CLASSICS" data-hi="CURATED CLASSICS">CURATED CLASSICS</span><i></i><span data-voice data-en="ADULT FIGURE STUDIES" data-hi="ADULT FIGURE STUDIES">ADULT FIGURE STUDIES</span><i></i><span data-voice data-en="ARTIST REFERENCES" data-hi="ARTIST REFERENCES">ARTIST REFERENCES</span></div>
+        <p class="hero-signoff" data-voice data-en="A little bold. Fully classy. Respect, always." data-hi="Thoda bold. Full classy. Respect hamesha.">A little bold. Fully classy. Respect, always.</p>
       </div>
       <div class="hero-art" aria-label="Editorial art-gallery cover">
         <div class="hero-frame">
@@ -76,10 +78,12 @@
       <div><strong>18+</strong><span>ADULT ART SPACE</span></div>
     </section>
 
+    <section class="brand-manifesto wrap" aria-label="Brand principles"><p class="eyebrow">THE HOUSE RULE</p><p class="manifesto-line">Curiosity over judgement. Craft over clickbait. <em>Respect over everything.</em></p><p class="manifesto-aside" data-voice data-en="Nudity can be art. Bad manners never are." data-hi="Nudity art ho sakti hai. Badtameezi kabhi nahi.">Nudity can be art. Bad manners never are.</p><div class="brand-art-strip" aria-label="Selected open-access artwork previews"><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/436003.webp" width="100" height="100" loading="lazy" alt="The Young Bather, Gustave Courbet"><span>The Young Bather</span></a><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/435831.webp" width="100" height="100" loading="lazy" alt="The Birth of Venus, Alexandre Cabanel"><span>Birth of Venus</span></a><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/459191.webp" width="100" height="100" loading="lazy" alt="Study for Poseuses, Georges Seurat"><span>Figure Study</span></a><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/256403.webp" width="100" height="100" loading="lazy" alt="Marble Statue Group of the Three Graces"><span>Three Graces</span></a></div></section>
+
     <section class="section wrap" id="art-section">
       <div class="section-heading">
         <div><p class="eyebrow">01 / THE STARTER SHELF</p><h2>Curated picks <em>worth a closer look.</em></h2></div>
-        <p class="section-aside">A small set of starter works from the original build. The expanded museum library lives in Collections below.</p>
+        <p class="section-aside" data-voice data-en="The original starter shelf stays intact. The larger open-access library lives in Collections below." data-hi="Original starter shelf safe hai. Badi open-access library neeche Collections mein hai.">The original starter shelf stays intact. The larger open-access library lives in Collections below.</p>
       </div>
       <div class="toolbar">
         <label class="search-box"><span aria-hidden="true">⌕</span><input id="artSearch" type="search" placeholder="Search artist, title or medium…" autocomplete="off"><kbd>/</kbd></label>
@@ -91,18 +95,18 @@
       </div>
       <div class="art-grid" id="artGrid" aria-live="polite"></div>
       <p class="empty-state hidden" id="artEmpty">No artworks match that search. Try another artist or keyword.</p>
-      <p class="section-note">Artwork images are loaded from the source gallery; each card keeps the museum record and rights information attached.</p>
+      <p class="section-note" data-voice data-en="Every work keeps its museum provenance and rights notes close." data-hi="Har artwork ke saath museum source aur rights details judi rahengi.">Every work keeps its museum provenance and rights notes close.</p>
     </section>
 
 
     <section class="section wrap collection-section" id="collection-section">
       <div class="section-heading">
         <div><p class="eyebrow">02 / THE OPEN-ACCESS LIBRARY</p><h2>Figure art <em>without the tiny shelf.</em></h2></div>
-        <p class="section-aside">Browse 49 verified ArtFlip figure-art picks, then search live museum collections. Only public-domain / CC0 records with a usable image are shown.</p>
+        <p class="section-aside" data-voice data-en="Browse 52 curated ArtFlip figure-art picks, including 20 bundled previews, then search live museum collections. Only public-domain / CC0 records are shown." data-hi="52 curated ArtFlip picks browse karo — 20 previews app ke saath included hain. Live museum search bhi hai; sirf public-domain / CC0 art dikhaya jayega.">Browse 52 curated ArtFlip figure-art picks, including 20 bundled previews, then search live museum collections. Only public-domain / CC0 records are shown.</p>
       </div>
       <div class="collection-metrics" aria-live="polite">
         <div><strong id="collectionLoaded">0</strong><span>LOADED HERE</span></div>
-        <div><strong>04</strong><span>ART SOURCES</span></div>
+        <div><strong>20</strong><span>LOCAL ART IMAGES</span></div>
         <div><strong>PD / CC0</strong><span>RIGHTS FILTER</span></div>
       </div>
       <div class="collection-toolbar">
@@ -125,7 +129,7 @@
       <div class="collection-status" id="collectionStatus" role="status" aria-live="polite">Ready to search the museum libraries. Results load in small batches to keep the phone responsive.</div>
       <div class="collection-grid" id="collectionGrid" aria-live="polite"></div>
       <p class="empty-state hidden" id="collectionEmpty">No eligible artworks found for this search. Try another subject or museum.</p>
-      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">Load more adds another small batch. Images stay hosted by the museums and are not copied into this repository.</p></div>
+      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">20 ArtFlip WebP thumbnails are bundled locally; full-size artwork opens from the source museum. Live museum results remain remote.</p></div>
       <p class="rights-note collection-rights">Rights filter: ArtFlip seed records are included only when the ArtFlip metadata has <code>isPublicDomain = true</code>; The Met — <code>isPublicDomain = true</code>; Art Institute of Chicago — <code>is_public_domain = true</code>; Cleveland Museum — <code>share_license_status = CC0</code>. Image URLs come from each museum’s official open-access image service. Search results are live and can change as museum records are updated.</p>
     </section>
 
@@ -213,7 +217,7 @@
     <section class="section wrap saved-section" id="saved-section">
       <div class="section-heading">
         <div><p class="eyebrow">05 / YOUR PRIVATE SHELF</p><h2>Saved <em>for later.</em></h2></div>
-        <p class="section-aside">Your favourites stay in this browser. No account and no server storage in this Phase 2 build.</p>
+        <p class="section-aside" data-voice data-en="Your favourites stay on this device. No account or app server needed." data-hi="Tumhare favourites isi device mein rehte hain. Account ya app server ki zaroorat nahi.">Your favourites stay on this device. No account or app server needed.</p>
       </div>
       <div class="saved-grid" id="savedGrid"></div>
       <p class="empty-state" id="savedEmpty">Nothing saved yet. Tap the heart on an artwork or pose to keep it here.</p>
@@ -222,9 +226,9 @@
 
   <footer class="site-footer wrap">
     <a class="brand footer-brand" href="#top"><span class="brand-monogram">NC<span>•</span></span><span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span></a>
-    <p>Bold art. Raw beauty. Zero boring rules.</p>
+    <p class="footer-tagline" data-voice data-en="A little bold. Fully classy. Zero cheap shots." data-hi="Thoda bold. Full classy. Cheap drama zero.">A little bold. Fully classy. Zero cheap shots.</p>
     <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener">Sources & licences</a><a href="README.md" target="_blank" rel="noopener">Project notes</a></div>
-    <small class="copyright">PHASE 4 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
+    <small class="copyright">PHASE 5 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
   </footer>
 
   <div class="modal-backdrop hidden" id="artModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -262,5 +266,6 @@
   <script src="creator.js" defer></script>
   <script src="artflip-figure-index.js" defer></script>
   <script src="collections.js" defer></script>
+  <script src="brand-voice.js" defer></script>
 </body>
 </html>

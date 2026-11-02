@@ -138,8 +138,8 @@
       id: `artflip-${record.id}`, museumKey: 'artflip', title: text(record.title),
       artist: text(record.artist) || 'Artist not recorded', year: text(record.year) || 'Date not recorded',
       medium: text(record.medium) || 'Medium not recorded', museum: `${text(record.museum) || 'Museum collection'} · ArtFlip index`,
-      image: record.image, thumb: record.image, sourceUrl: record.sourceUrl,
-      rights: 'ArtFlip metadata marks this object as public domain. The image is loaded from the linked museum image host, not copied into this app. Follow the linked museum record for any credit or reuse notes.',
+      image: record.image, thumb: record.thumb || record.image, sourceUrl: record.sourceUrl,
+      rights: record.thumb ? 'The local preview is included from ArtFlip’s CC0 public-domain thumbnail library. The full-size image remains on the originating museum host; follow the linked museum record for provenance and any credit notes.' : 'ArtFlip metadata marks this object as public domain. The full-size image is loaded from the linked museum image host. Follow the linked museum record for provenance and any credit notes.',
       kind: tags.includes('sculpture') || /bronze|marble|ceramic|terracotta|wood|ivory|alabaster/i.test(record.medium || '') ? 'Sculpture / object' : 'Figure artwork',
       tags, indexSource: 'ArtFlip public-domain metadata', metadataUrl: `https://github.com/lewdry/artflip/blob/main/public/metadata/${record.id}.json`
     };
@@ -210,7 +210,7 @@
     $('collectionGrid').innerHTML = rows.map(item => {
       const saved = isCollectionSaved(item.id);
       return `<article class="collection-card" data-collection-id="${safe(item.id)}" tabindex="0" role="button" aria-label="Open ${safe(item.title)} by ${safe(item.artist)}">
-        <div class="collection-card-image"><img loading="lazy" src="${safe(item.thumb)}" data-full="${safe(item.image)}" alt="${safe(item.title)} by ${safe(item.artist)}"><span class="collection-source-tag">${safe(item.museum)}</span><button class="heart-button ${saved ? 'saved' : ''}" type="button" data-save-collection="${safe(item.id)}" aria-label="Save artwork">♡</button></div>
+        <div class="collection-card-image"><img class="${item.id.startsWith('artflip-') && String(item.thumb).startsWith('assets/') ? 'local-preview' : ''}" loading="lazy" src="${safe(item.thumb)}" data-full="${safe(item.image)}" alt="${safe(item.title)} by ${safe(item.artist)}"><span class="collection-source-tag">${safe(item.museum)}</span><button class="heart-button ${saved ? 'saved' : ''}" type="button" data-save-collection="${safe(item.id)}" aria-label="Save artwork">♡</button></div>
         <div class="collection-card-info"><h3>${safe(item.title)}</h3><p>${safe(item.artist)} · ${safe(item.year)}</p><div class="card-foot"><span>${safe(item.kind)}</span><span>OPEN ↗</span></div></div>
       </article>`;
     }).join('');
@@ -227,7 +227,7 @@
     if (source === 'all' || source === 'met') notes.push(`Met: ${state.totals.met ?? '—'}`);
     if (source === 'all' || source === 'aic') notes.push(`Chicago: ${state.totals.aic ?? '—'}`);
     if (source === 'all' || source === 'cma') notes.push(`Cleveland: ${state.totals.cma ?? '—'}`);
-    $('collectionMoreNote').textContent = `Eligible search matches reported by sources: ${notes.join(' · ')}. ArtFlip picks are metadata-only; every image stays on its museum host. No image file is copied into this project.`;
+    $('collectionMoreNote').textContent = `Eligible search matches: ${notes.join(' · ')}. 20 ArtFlip WebP thumbnails are bundled locally; full-size images open from source museums.`;
   }
 
   function setStatus(message, kind = '') {

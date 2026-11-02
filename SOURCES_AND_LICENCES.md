@@ -61,9 +61,9 @@ The AI Creator integration is implemented against Pollinations' documented user-
 Pollinations is a third-party service with its own terms, model restrictions, moderation and data handling. Prompts and generation requests are sent directly to Pollinations. Review its current policies before use. This project does not claim that all models or all image generations are free.
 
 
-## Phase 4 — Live open-access collection sources
+## Phase 4–5 — Open-access collection sources and local preview assets
 
-Phase 4 adds 49 metadata-only ArtFlip figure-art picks selected from its public-domain tags and verified full metadata records (`isPublicDomain: true` plus a non-empty `primaryImage`). Their image URLs point directly to the originating museum; no ArtFlip image or museum image binary is copied into this repository. The Collections browser also calls three official museum APIs and displays images from each museum-supplied URL. Source query, rights flag and museum record URL are retained with each result.
+Phase 4 introduced 49 curated ArtFlip figure-art records. Phase 5 adds three more image-backed public-domain records (IDs 436003, 435831 and 437827), bringing the seed index to 52. Every selected record was checked against ArtFlip metadata (`isPublicDomain: true`) and a usable museum-hosted full-size image URL. Twenty small 100×100 WebP preview images are now bundled locally under `assets/artflip-thumbs/`; the full-size images are still served by the originating museum. The Collections browser also calls three official museum APIs and displays images from the museum-supplied URLs. Source query, rights flag and museum record URL are retained with each result.
 
 | Source | API / rights check | Image source | Documentation |
 |---|---|---|---|
@@ -77,8 +77,36 @@ The Art Institute's documentation recommends filtering images to records marked 
 
 ## Duplicate handling
 
-ArtFlip records are stored as a small metadata index (`artflip-figure-index.js`), not as image files. Source IDs are namespaced as `artflip-<id>`. Search results exclude the Phase 2 starter objects by ID and collapse repeated works by normalized title + artist across ArtFlip and live museum APIs. The dynamic library excludes the Phase 2 seed IDs `met-438013`, `met-438661`, `met-337063`, and `mia-1655`. It also skips duplicates by source record ID, normalized title + artist, and normalized image identifier/filename across sources. No new image file is copied into the project. A complete remote-repository inventory was not available from the connected GitHub account during this phase, so cross-checking any additional files manually added to a private/other repository remains a deployment-time check.
+ArtFlip records are stored as a small metadata index (`artflip-figure-index.js`); Phase 5 also includes 20 small WebP preview image files. Source IDs are namespaced as `artflip-<id>`. Search results exclude the Phase 2 starter objects by ID and collapse repeated works by normalized title + artist across ArtFlip and live museum APIs. The dynamic library excludes the Phase 2 seed IDs `met-438013`, `met-438661`, `met-337063`, and `mia-1655`. It also skips duplicates by source record ID, normalized title + artist, and normalized image identifier/filename across sources. Only the 20 named CC0 preview thumbnails are copied into the project; no full-size source image dump is mirrored. A complete remote-repository inventory was not available from the connected GitHub account during this phase, so cross-checking any additional files manually added to a private/other repository remains a deployment-time check.
 
 ## ArtFlip catalogue note
 
-ArtFlip repository: https://github.com/lewdry/artflip. Its README lists 6,280 public-domain records in the 2026-09-06 count and describes museum sources. That is a general art set, not a verified 6,280-item nude catalogue. Its general source catalogue is not a verified 6,280-item nude catalogue. Phase 4 searched the `Female Nudes` and `Male Nudes` metadata terms, checked candidate records individually, excluded false-positive/ambiguous matches and records clearly identified as child subjects (including a “Young Girl” bathing record), and retained 49 image-available, `isPublicDomain: true` picks. The selected artworks load from the originating museum image URLs; no binary assets, ArtFlip thumbnails or bulk dump are re-hosted.
+ArtFlip repository: https://github.com/lewdry/artflip. Its README lists 6,280 public-domain records in the 2026-09-06 count and describes museum sources. That is a general art set, not a verified 6,280-item nude catalogue. Phase 4 searched the `Female Nudes` and `Male Nudes` metadata terms, checked candidate records individually, excluded false-positive/ambiguous matches and records clearly identified as child subjects (including a “Young Girl” bathing record), and retained 49 initial image-available, `isPublicDomain: true` picks; Phase 5 added three additional image-backed public-domain records, bringing the index to 52. The selected artworks use locally bundled CC0 thumbnails for 20 card previews and load full-size artwork from originating museum image URLs. No full-size ArtFlip dump or museum image collection is re-hosted.
+
+
+## Phase 5 — bundled ArtFlip thumbnails
+
+The following 20 WebP thumbnails are included under `assets/artflip-thumbs/`. They are small 100×100 previews sourced from the ArtFlip repository's `public/thumbs/` folder. The ArtFlip README states that artwork in its collection is from collections released under CC0; the project is a public-domain artwork aggregator. Full-size artwork URLs and museum records remain in the metadata index.
+
+| ArtFlip ID | Local preview | Museum record |
+|---|---|---|
+| 436003 | `assets/artflip-thumbs/436003.webp` | [The Young Bather](https://www.metmuseum.org/art/collection/search/436003) |
+| 436004 | `assets/artflip-thumbs/436004.webp` | [The Woman in the Waves](https://www.metmuseum.org/art/collection/search/436004) |
+| 435831 | `assets/artflip-thumbs/435831.webp` | [The Birth of Venus](https://www.metmuseum.org/art/collection/search/435831) |
+| 435829 | `assets/artflip-thumbs/435829.webp` | [Echo](https://www.metmuseum.org/art/collection/search/435829) |
+| 459191 | `assets/artflip-thumbs/459191.webp` | [Study for Poseuses](https://www.metmuseum.org/art/collection/search/459191) |
+| 437827 | `assets/artflip-thumbs/437827.webp` | [Venus and the Lute Player](https://www.metmuseum.org/art/collection/search/437827) |
+| 436173 | `assets/artflip-thumbs/436173.webp` | [Woman Having Her Hair Combed](https://www.metmuseum.org/art/collection/search/436173) |
+| 435963 | `assets/artflip-thumbs/435963.webp` | [Bacchante by the Sea](https://www.metmuseum.org/art/collection/search/435963) |
+| 435965 | `assets/artflip-thumbs/435965.webp` | [Bacchante in a Landscape](https://www.metmuseum.org/art/collection/search/435965) |
+| 435739 | `assets/artflip-thumbs/435739.webp` | [The Toilette of Venus](https://www.metmuseum.org/art/collection/search/435739) |
+| 436022 | `assets/artflip-thumbs/436022.webp` | [The Source](https://www.metmuseum.org/art/collection/search/436022) |
+| 436002 | `assets/artflip-thumbs/436002.webp` | [Woman with a Parrot](https://www.metmuseum.org/art/collection/search/436002) |
+| 13070 | `assets/artflip-thumbs/13070.webp` | [The Pleiades](https://www.metmuseum.org/art/collection/search/13070) |
+| 256403 | `assets/artflip-thumbs/256403.webp` | [Marble Statue Group of the Three Graces](https://www.metmuseum.org/art/collection/search/256403) |
+| 64916 | `assets/artflip-thumbs/64916.webp` | [The Serf](https://www.artic.edu/artworks/64916) |
+| 314826 | `assets/artflip-thumbs/314826.webp` | [Male Figure (Moai Tangata)](https://www.metmuseum.org/art/collection/search/314826) |
+| 247117 | `assets/artflip-thumbs/247117.webp` | [Bronze statue of Trebonianus Gallus](https://www.metmuseum.org/art/collection/search/247117) |
+| 334002 | `assets/artflip-thumbs/334002.webp` | [Seated Giant](https://www.metmuseum.org/art/collection/search/334002) |
+| 437784 | `assets/artflip-thumbs/437784.webp` | [Alexander the Great Rescued from the River Cydnus](https://www.metmuseum.org/art/collection/search/437784) |
+| 835151 | `assets/artflip-thumbs/835151.webp` | [Paint box with nude study](https://www.metmuseum.org/art/collection/search/835151) |
