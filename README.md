@@ -108,3 +108,15 @@ python -m http.server 8000
 ```
 
 See `PHASE_2_QA.md`, `PHASE_3_QA.md`, `PHASE_4_QA.md` and `PHASE_5_QA.md` for performed checks and remaining manual tests. See `PHASE_5_BRAND_GUIDE.md` and `PHASE_5_MERGE_GUIDE.md` for Phase 5 details. See `PHASE_3_CREATOR_SETUP.md` for the Pollinations setup checklist and `SOURCES_AND_LICENCES.md` for collection provenance.
+
+
+## Phase 6 — Android / mobile performance
+
+- Eleven original figure-study images selected from the user's ChatGPT Library are bundled locally in `assets/my-studio/` as optimized WebP (not ArtFlip images).
+- Each original PNG was about 3.1–3.9 MB; the optimized WebP files total about 3.03 MiB. Gallery cards use lazy loading and asynchronous decoding.
+- A versioned service worker caches same-origin HTML, CSS, JavaScript, the manifest, icons, the generated Studio images, and the small local open-access thumbnail set for offline browsing.
+- External museum APIs, museum image hosts, Shisei images, Pollinations OAuth and generation endpoints are intentionally not cached. No tokens or API credentials enter the cache.
+- A web app manifest and standalone icons support installation on compatible Android browsers.
+- Collections and studio art have touch-friendly controls, responsive two-column mobile cards, modal swipe navigation, keyboard actions and reduced-motion support.
+
+The age gate is a self-attestation prompt, not identity or age verification.

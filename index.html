@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#120f11">
+  <meta name="color-scheme" content="dark light">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/app-192.png">
+  <link rel="apple-touch-icon" href="icons/app-192.png">
   <meta name="description" content="Naked Canvas — a curated fine-art and figure-study reference gallery.">
   <title>Naked Canvas — Art After Dark</title>
   <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
@@ -14,6 +18,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#top">Skip to content</a>
   <div class="ambient ambient-one" aria-hidden="true"></div>
   <div class="ambient ambient-two" aria-hidden="true"></div>
 
@@ -46,7 +51,7 @@
     </button>
   </header>
 
-  <main id="top">
+  <main id="top" tabindex="-1">
     <section class="hero wrap">
       <div class="hero-copy">
         <p class="eyebrow"><span class="eyebrow-line"></span><span data-voice data-en="THE ART OF THE HUMAN FORM" data-hi="FORM KA ART. ARTIST KA RESPECT.">THE ART OF THE HUMAN FORM</span></p>
@@ -78,7 +83,7 @@
       <div><strong>18+</strong><span>ADULT ART SPACE</span></div>
     </section>
 
-    <section class="brand-manifesto wrap" aria-label="Brand principles"><p class="eyebrow">THE HOUSE RULE</p><p class="manifesto-line">Curiosity over judgement. Craft over clickbait. <em>Respect over everything.</em></p><p class="manifesto-aside" data-voice data-en="Nudity can be art. Bad manners never are." data-hi="Nudity art ho sakti hai. Badtameezi kabhi nahi.">Nudity can be art. Bad manners never are.</p><div class="brand-art-strip" aria-label="Selected open-access artwork previews"><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/436003.webp" width="100" height="100" loading="lazy" alt="The Young Bather, Gustave Courbet"><span>The Young Bather</span></a><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/435831.webp" width="100" height="100" loading="lazy" alt="The Birth of Venus, Alexandre Cabanel"><span>Birth of Venus</span></a><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/459191.webp" width="100" height="100" loading="lazy" alt="Study for Poseuses, Georges Seurat"><span>Figure Study</span></a><a href="#collection-section" class="brand-art-tile"><img src="assets/artflip-thumbs/256403.webp" width="100" height="100" loading="lazy" alt="Marble Statue Group of the Three Graces"><span>Three Graces</span></a></div></section>
+    <section class="brand-manifesto wrap" aria-label="Brand principles"><p class="eyebrow">THE HOUSE RULE</p><p class="manifesto-line">Curiosity over judgement. Craft over clickbait. <em>Respect over everything.</em></p><p class="manifesto-aside" data-voice data-en="Nudity can be art. Bad manners never are." data-hi="Nudity art ho sakti hai. Badtameezi kabhi nahi.">Nudity can be art. Bad manners never are.</p></section>
 
     <section class="section wrap" id="art-section">
       <div class="section-heading">
@@ -101,13 +106,20 @@
 
     <section class="section wrap collection-section" id="collection-section">
       <div class="section-heading">
-        <div><p class="eyebrow">02 / THE OPEN-ACCESS LIBRARY</p><h2>Figure art <em>without the tiny shelf.</em></h2></div>
-        <p class="section-aside" data-voice data-en="Browse 52 curated ArtFlip figure-art picks, including 20 bundled previews, then search live museum collections. Only public-domain / CC0 records are shown." data-hi="52 curated ArtFlip picks browse karo — 20 previews app ke saath included hain. Live museum search bhi hai; sirf public-domain / CC0 art dikhaya jayega.">Browse 52 curated ArtFlip figure-art picks, including 20 bundled previews, then search live museum collections. Only public-domain / CC0 records are shown.</p>
+        <div><p class="eyebrow">02 / YOUR STUDIO + OPEN-ACCESS LIBRARY</p><h2>Figure art <em>without the tiny shelf.</em></h2></div>
+        <p class="section-aside" data-voice data-en="Start with your eleven original ChatGPT Library figure-study artworks, then explore curated open-access museum references. Generated work and historical collection records stay clearly labelled." data-hi="Pehle tumhari ChatGPT Library ki 11 original figure-study artworks dekho, phir museum references explore karo. AI-generated art aur historical works alag-alag labelled hain.">Start with your eleven original ChatGPT Library figure-study artworks, then explore curated open-access museum references. Generated work and historical collection records stay clearly labelled.</p>
+      </div>
+      <div class="studio-library-block" id="studio-library">
+        <div class="studio-library-heading">
+          <div><p class="eyebrow">CHATGPT LIBRARY / YOUR ORIGINALS</p><h3>My studio shelf <em>made for close study.</em></h3></div>
+          <p>Eleven distinct figure-study artworks selected from your ChatGPT Library. Bundled locally, compressed for mobile, and labelled as AI-generated artwork.</p>
+        </div>
+        <div class="studio-art-grid" id="studioArtGrid" aria-label="Your ChatGPT-generated figure study artworks"></div>
       </div>
       <div class="collection-metrics" aria-live="polite">
-        <div><strong id="collectionLoaded">0</strong><span>LOADED HERE</span></div>
-        <div><strong>20</strong><span>LOCAL ART IMAGES</span></div>
-        <div><strong>PD / CC0</strong><span>RIGHTS FILTER</span></div>
+        <div><strong>11</strong><span>YOUR LIBRARY ART</span></div>
+        <div><strong id="collectionLoaded">0</strong><span>MUSEUM PICKS LOADED</span></div>
+        <div><strong>PD / CC0</strong><span>MUSEUM RIGHTS FILTER</span></div>
       </div>
       <div class="collection-toolbar">
         <label class="search-box collection-search"><span aria-hidden="true">⌕</span><input id="collectionSearch" type="search" placeholder="Search nude art, artist, title or subject…" autocomplete="off"><button class="search-submit" id="runCollectionSearch" type="button">Search</button></label>
@@ -129,7 +141,7 @@
       <div class="collection-status" id="collectionStatus" role="status" aria-live="polite">Ready to search the museum libraries. Results load in small batches to keep the phone responsive.</div>
       <div class="collection-grid" id="collectionGrid" aria-live="polite"></div>
       <p class="empty-state hidden" id="collectionEmpty">No eligible artworks found for this search. Try another subject or museum.</p>
-      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">20 ArtFlip WebP thumbnails are bundled locally; full-size artwork opens from the source museum. Live museum results remain remote.</p></div>
+      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">Your eleven generated Studio artworks are stored locally in optimized WebP. Museum source previews and full-size records remain separately attributed.</p></div>
       <p class="rights-note collection-rights">Rights filter: ArtFlip seed records are included only when the ArtFlip metadata has <code>isPublicDomain = true</code>; The Met — <code>isPublicDomain = true</code>; Art Institute of Chicago — <code>is_public_domain = true</code>; Cleveland Museum — <code>share_license_status = CC0</code>. Image URLs come from each museum’s official open-access image service. Search results are live and can change as museum records are updated.</p>
     </section>
 
@@ -228,7 +240,8 @@
     <a class="brand footer-brand" href="#top"><span class="brand-monogram">NC<span>•</span></span><span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span></a>
     <p class="footer-tagline" data-voice data-en="A little bold. Fully classy. Zero cheap shots." data-hi="Thoda bold. Full classy. Cheap drama zero.">A little bold. Fully classy. Zero cheap shots.</p>
     <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener">Sources & licences</a><a href="README.md" target="_blank" rel="noopener">Project notes</a></div>
-    <small class="copyright">PHASE 5 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
+    <div class="pwa-footer-row"><button class="button button-quiet install-app hidden" id="installAppButton" type="button">Install app ↓</button><span id="connectionStatus" class="connection-status" role="status">Online · offline-ready library</span></div>
+    <small class="copyright">PHASE 6 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
   </footer>
 
   <div class="modal-backdrop hidden" id="artModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -261,11 +274,23 @@
     </div>
   </div>
 
+
+  <div class="modal-backdrop hidden" id="studioArtModal" role="dialog" aria-modal="true" aria-labelledby="studioArtModalTitle">
+    <div class="art-modal studio-art-modal">
+      <button class="modal-close" id="closeStudioArtModal" aria-label="Close studio artwork viewer">×</button>
+      <button class="modal-arrow modal-prev" id="prevStudioArt" aria-label="Previous studio artwork">‹</button>
+      <div class="modal-image-wrap studio-modal-image"><img id="studioArtModalImage" alt=""></div>
+      <div class="modal-info"><p class="eyebrow">CHATGPT LIBRARY · AI-GENERATED</p><h2 id="studioArtModalTitle"></h2><p class="modal-artist" id="studioArtModalStyle"></p><dl id="studioArtModalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="studioArtModalSave" type="button">♡ Save to My Shelf</button><a class="button button-quiet" id="studioArtOpenImage" href="#" target="_blank" rel="noopener">Open image ↗</a><a class="button button-quiet" id="studioArtDownload" href="#" download>Download WebP ↓</a></div><p class="rights-note" id="studioArtModalNote">Selected from your generated ChatGPT Library. Optimized WebP copy is stored with this static app.</p></div>
+      <button class="modal-arrow modal-next" id="nextStudioArt" aria-label="Next studio artwork">›</button>
+    </div>
+  </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js" defer></script>
   <script src="creator.js" defer></script>
   <script src="artflip-figure-index.js" defer></script>
   <script src="collections.js" defer></script>
   <script src="brand-voice.js" defer></script>
+  <script src="library-art.js" defer></script>
+  <script src="pwa.js" defer></script>
 </body>
 </html>

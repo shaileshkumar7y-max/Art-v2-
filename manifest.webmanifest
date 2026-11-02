@@ -1,0 +1,31 @@
+{
+  "id": "./",
+  "name": "Naked Canvas \u2014 Art After Dark",
+  "short_name": "Naked Canvas",
+  "description": "A mobile-first, non-explicit fine-art and figure-study reference gallery.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#120f11",
+  "theme_color": "#120f11",
+  "categories": [
+    "art",
+    "education",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "icons/app-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/app-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

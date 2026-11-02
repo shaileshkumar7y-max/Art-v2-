@@ -72,6 +72,7 @@ function persistSaved() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
   catch { showToast('Browser storage is unavailable. Your favourites may not persist.'); }
   updateSavedCount();
+  window.dispatchEvent(new Event('nakedcanvas:saved-change'));
 }
 function isSaved(id) { return saved.some(item => item.id === id); }
 function toggleSaved(item) {
@@ -84,6 +85,8 @@ function toggleSaved(item) {
   updateModalSaveState();
   showToast(isSaved(item.id) ? 'Saved to your private shelf.' : 'Removed from your shelf.');
 }
+window.nakedCanvasSave = toggleSaved;
+window.nakedCanvasIsSaved = isSaved;
 function updateSavedCount() { $('savedCount').textContent = String(saved.length); }
 function showToast(message) {
   const toast = $('toast');
@@ -110,7 +113,7 @@ function withFallback(img, fallback) {
 function artCard(artwork, index) {
   const savedClass = isSaved(artwork.id) ? 'saved' : '';
   return `<article class="art-card" data-art-id="${safeText(artwork.id)}" tabindex="0" role="button" aria-label="Open ${safeText(artwork.title)}">
-    <div class="art-card-image"><img loading="lazy" src="${safeText(artwork.thumb)}" data-full="${safeText(artwork.image)}" data-fallback="${safeText(artwork.fallback)}" alt="${safeText(artwork.title)} by ${safeText(artwork.artist)}"><span class="art-tag">${safeText(artwork.kind.toUpperCase())}</span><button class="heart-button ${savedClass}" data-save-art="${safeText(artwork.id)}" aria-label="${savedClass ? 'Remove saved artwork' : 'Save artwork'}">${savedClass ? '♥' : '♡'}</button></div>
+    <div class="art-card-image"><img loading="lazy" decoding="async" fetchpriority="low" width="640" height="800" src="${safeText(artwork.thumb)}" data-full="${safeText(artwork.image)}" data-fallback="${safeText(artwork.fallback)}" alt="${safeText(artwork.title)} by ${safeText(artwork.artist)}"><span class="art-tag">${safeText(artwork.kind.toUpperCase())}</span><button class="heart-button ${savedClass}" data-save-art="${safeText(artwork.id)}" aria-label="${savedClass ? 'Remove saved artwork' : 'Save artwork'}">${savedClass ? '♥' : '♡'}</button></div>
     <div class="art-card-info"><h3>${safeText(artwork.title)}</h3><p>${safeText(artwork.artist)} · ${safeText(artwork.year)}</p><div class="card-foot"><span>${safeText(artwork.museum)}</span><span>VIEW ↗</span></div></div>
   </article>`;
 }
@@ -126,7 +129,7 @@ function poseCard(pose) {
   const savedClass = isSaved(pose.id) ? 'saved' : '';
   const src = pose.image;
   return `<article class="pose-card" data-pose-id="${safeText(pose.id)}">
-    <div class="pose-image" data-open-pose="${safeText(pose.id)}" tabindex="0" role="button" aria-label="Open ${safeText(pose.title)} pose angles"><img loading="lazy" src="${safeText(src)}" alt="${safeText(pose.title)} — mannequin pose study"></div>
+    <div class="pose-image" data-open-pose="${safeText(pose.id)}" tabindex="0" role="button" aria-label="Open ${safeText(pose.title)} pose angles"><img loading="lazy" decoding="async" fetchpriority="low" width="480" height="620" src="${safeText(src)}" alt="${safeText(pose.title)} — mannequin pose study"></div>
     <div class="pose-card-info"><div class="pose-topline"><span class="pose-id">${safeText(pose.id)} / SHISEI</span><button class="heart-button ${savedClass}" data-save-pose="${safeText(pose.id)}" aria-label="${savedClass ? 'Remove saved pose' : 'Save pose'}">${savedClass ? '♥' : '♡'}</button></div><h3>${safeText(pose.title)}</h3><p>${safeText(pose.description)}</p><div class="pose-card-actions"><span class="pose-id">${Object.values(pose.views).filter(Boolean).length} VIEWPOINT${Object.values(pose.views).filter(Boolean).length === 1 ? '' : 'S'}</span><button class="text-button" data-open-pose="${safeText(pose.id)}">Explore angles ↗</button></div></div>
   </article>`;
 }
@@ -140,7 +143,7 @@ function renderPoses() {
 }
 function renderSaved() {
   const grid = $('savedGrid');
-  grid.innerHTML = saved.map(item => `<div class="saved-item"><img src="${safeText(item.thumb || item.image || '')}" alt=""><div><strong>${safeText(item.title)}</strong><small>${safeText(item.type === 'pose' ? 'Pose reference' : (item.artist || 'Fine art'))}</small></div><button data-remove-saved="${safeText(item.id)}" aria-label="Remove ${safeText(item.title)}">×</button></div>`).join('');
+  grid.innerHTML = saved.map(item => `<div class="saved-item"><img loading="lazy" decoding="async" src="${safeText(item.thumb || item.image || '')}" alt=""><div><strong>${safeText(item.title)}</strong><small>${safeText(item.type === 'pose' ? 'Pose reference' : (item.artist || 'Fine art'))}</small></div><button data-remove-saved="${safeText(item.id)}" aria-label="Remove ${safeText(item.title)}">×</button></div>`).join('');
   $('savedEmpty').classList.toggle('hidden', saved.length !== 0);
   grid.querySelectorAll('img').forEach(img => img.addEventListener('error', () => markImageUnavailable(img), { once: true }));
 }
@@ -346,5 +349,4 @@ document.querySelectorAll('.nav-link').forEach(button => button.addEventListener
   $(button.dataset.target).scrollIntoView({ behavior: 'smooth' });
 }));
 
-window.nakedCanvasSave = item => toggleSaved(item);
 renderArtworks(); renderPoses(); renderSaved(); updateSavedCount();

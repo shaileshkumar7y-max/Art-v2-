@@ -110,3 +110,8 @@ The following 20 WebP thumbnails are included under `assets/artflip-thumbs/`. Th
 | 334002 | `assets/artflip-thumbs/334002.webp` | [Seated Giant](https://www.metmuseum.org/art/collection/search/334002) |
 | 437784 | `assets/artflip-thumbs/437784.webp` | [Alexander the Great Rescued from the River Cydnus](https://www.metmuseum.org/art/collection/search/437784) |
 | 835151 | `assets/artflip-thumbs/835151.webp` | [Paint box with nude study](https://www.metmuseum.org/art/collection/search/835151) |
+
+
+## User's ChatGPT Library — Phase 6 originals
+
+The `assets/my-studio/` WebP files were derived from eleven images that the user generated in ChatGPT and selected from their own Library. They are labelled in the UI as **ChatGPT Library · AI-generated** and are not represented as historical museum works, public-domain works, or ArtFlip assets. The PNG source files were not copied into the project; only optimized WebP derivatives are bundled. Original Library file names: `Sepia Classical Figure Study Sheet.png`, `Sepia Renaissance Figure Study Collage(1).png`, `Sepia Classical Sculptor’s Studio Studies.png`, `Vintage Graphite Figure Study Collage.png`, `Classical Couple Figure Study Collage.png`, `Sepia Life Drawing Study Sheet(2).png`, `Classical Figure Study Triad.png`, `Sepia Classical Figure Study Collage(3).png`, `Graphite Couple Figure Study Sheet(1).png`, `Charcoal Figure Study Collage.png`, and `Classical Sepia Boudoir Reclining Nude.png`.

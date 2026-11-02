@@ -210,7 +210,7 @@
     $('collectionGrid').innerHTML = rows.map(item => {
       const saved = isCollectionSaved(item.id);
       return `<article class="collection-card" data-collection-id="${safe(item.id)}" tabindex="0" role="button" aria-label="Open ${safe(item.title)} by ${safe(item.artist)}">
-        <div class="collection-card-image"><img class="${item.id.startsWith('artflip-') && String(item.thumb).startsWith('assets/') ? 'local-preview' : ''}" loading="lazy" src="${safe(item.thumb)}" data-full="${safe(item.image)}" alt="${safe(item.title)} by ${safe(item.artist)}"><span class="collection-source-tag">${safe(item.museum)}</span><button class="heart-button ${saved ? 'saved' : ''}" type="button" data-save-collection="${safe(item.id)}" aria-label="Save artwork">♡</button></div>
+        <div class="collection-card-image"><img class="${item.id.startsWith('artflip-') && String(item.thumb).startsWith('assets/') ? 'local-preview' : ''}" loading="lazy" decoding="async" fetchpriority="low" width="640" height="800" src="${safe(item.thumb)}" data-full="${safe(item.image)}" alt="${safe(item.title)} by ${safe(item.artist)}"><span class="collection-source-tag">${safe(item.museum)}</span><button class="heart-button ${saved ? 'saved' : ''}" type="button" data-save-collection="${safe(item.id)}" aria-label="Save artwork">♡</button></div>
         <div class="collection-card-info"><h3>${safe(item.title)}</h3><p>${safe(item.artist)} · ${safe(item.year)}</p><div class="card-foot"><span>${safe(item.kind)}</span><span>OPEN ↗</span></div></div>
       </article>`;
     }).join('');
@@ -227,7 +227,7 @@
     if (source === 'all' || source === 'met') notes.push(`Met: ${state.totals.met ?? '—'}`);
     if (source === 'all' || source === 'aic') notes.push(`Chicago: ${state.totals.aic ?? '—'}`);
     if (source === 'all' || source === 'cma') notes.push(`Cleveland: ${state.totals.cma ?? '—'}`);
-    $('collectionMoreNote').textContent = `Eligible search matches: ${notes.join(' · ')}. 20 ArtFlip WebP thumbnails are bundled locally; full-size images open from source museums.`;
+    $('collectionMoreNote').textContent = `Eligible search matches: ${notes.join(' · ')}. Your eleven ChatGPT Library studio artworks are bundled locally in optimized WebP; museum images remain linked to their source collections.`;
   }
 
   function setStatus(message, kind = '') {
