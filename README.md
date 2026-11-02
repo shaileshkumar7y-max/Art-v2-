@@ -1,6 +1,6 @@
-# Naked Canvas — Phase 3 Creator Build
+# Naked Canvas — Phase 4 Art Collections Build
 
-A lightweight, Android-first static fine-art gallery with a new AI Creator studio. This update preserves the Phase 2 artwork gallery, pose atlas, favourites and theme controls, then adds a prompt builder and optional Pollinations image generation connection.
+A lightweight, Android-first static fine-art gallery with a curated open-access figure-art library, pose atlas and AI Creator studio. This update preserves the Phase 2 gallery and Phase 3 Creator, then adds 49 curated ArtFlip public-domain metadata picks plus live search across three museum open-access APIs.
 
 ## What is included
 
@@ -10,6 +10,15 @@ A lightweight, Android-first static fine-art gallery with a new AI Creator studi
 - Artwork viewer with previous/next controls, metadata and official museum-record link.
 - Pose atlas with search, category filters and a five-angle viewer.
 - Browser-local favourites, 18+ acknowledgement, light/dark theme and keyboard shortcuts.
+
+### Art Collections (new in Phase 4)
+- A built-in index of 49 ArtFlip figure-art records verified from their metadata for `isPublicDomain: true` and a usable museum-hosted image URL.
+- Female and male figure studies, reclining poses, bathers, mythological/classical works, photography, drawings and sculpture/object records.
+- Live search across The Met, Art Institute of Chicago and Cleveland Museum open-access catalogues.
+- Subject chips, source filter, title/artist sorting, paginated load-more and artwork detail viewer.
+- Artwork cards and viewer reuse the existing Saved shelf.
+- Duplicate handling checks museum record IDs and normalized title + artist; the four Phase 2 starter records are explicitly excluded.
+- No image binaries are copied into the Phase 4 update. The 49 ArtFlip entries keep metadata and direct image URLs from their official museum hosts; live results also load museum-hosted images on demand.
 
 ### AI Creator (new in Phase 3)
 - Fine-art prompt builder with six presets: academic figure study, draped classical study, gesture drawing, portrait, sculpture study and adult duo composition.
@@ -68,11 +77,11 @@ Upload all files in this folder to the root of a repository and select **Setting
 
 ## Current known limits
 
-- The starter gallery remains intentionally small: 4 artwork entries and 8 Shisei pose sets, not the full source repositories.
-- Source gallery images are remote references; the ZIP does not bundle the binary images.
+- The original starter gallery remains 4 artwork entries and 8 Shisei pose sets. Phase 4 adds 49 curated ArtFlip figure-art picks and live museum search, not a mirror of any full source repository.
+- All artwork images remain remote references from the source museums; no new binary image files are bundled. ArtFlip’s 6,280-record general catalogue is not a 6,280-item nude-art catalogue.
 - AI generation requires the user to create/configure a Pollinations App Key and approve their own budget. No developer key is included.
 - The real OAuth, model catalogue and generation calls were not live-tested from this container. Browser CORS, account balance, moderation, region/model availability and provider behaviour must be verified on the published HTTPS site.
-- Browser rendering and physical Android touch testing remain outstanding; headless Chromium was not usable in the prior Phase 2 runtime.
+- Browser rendering, live museum API/CORS behaviour and physical Android touch testing remain outstanding; headless Chromium was not usable in the prior Phase 2 runtime.
 - An 18+ self-acknowledgement is not identity or age verification.
 
 ## Smoke checks
@@ -80,7 +89,9 @@ Upload all files in this folder to the root of a repository and select **Setting
 ```bash
 node --check app.js
 node --check creator.js
+node --check collections.js
+node --check artflip-figure-index.js
 python -m http.server 8000
 ```
 
-See `PHASE_2_QA.md` and `PHASE_3_QA.md` for performed checks and remaining manual tests. See `PHASE_3_CREATOR_SETUP.md` for the Pollinations setup checklist.
+See `PHASE_2_QA.md`, `PHASE_3_QA.md` and `PHASE_4_QA.md` for performed checks and remaining manual tests. See `PHASE_3_CREATOR_SETUP.md` for the Pollinations setup checklist and `SOURCES_AND_LICENCES.md` for collection provenance.

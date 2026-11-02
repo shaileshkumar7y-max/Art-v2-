@@ -59,3 +59,26 @@ The AI Creator integration is implemented against Pollinations' documented user-
 - Official image-model catalogue: https://gen.pollinations.ai/image/models
 
 Pollinations is a third-party service with its own terms, model restrictions, moderation and data handling. Prompts and generation requests are sent directly to Pollinations. Review its current policies before use. This project does not claim that all models or all image generations are free.
+
+
+## Phase 4 — Live open-access collection sources
+
+Phase 4 adds 49 metadata-only ArtFlip figure-art picks selected from its public-domain tags and verified full metadata records (`isPublicDomain: true` plus a non-empty `primaryImage`). Their image URLs point directly to the originating museum; no ArtFlip image or museum image binary is copied into this repository. The Collections browser also calls three official museum APIs and displays images from each museum-supplied URL. Source query, rights flag and museum record URL are retained with each result.
+
+| Source | API / rights check | Image source | Documentation |
+|---|---|---|---|
+| The Metropolitan Museum of Art | `/public/collection/v1.1/search` + object detail; accept only `isPublicDomain === true` and a non-empty image | `primaryImage` / `primaryImageSmall` returned by the Met | https://metmuseum.github.io/ |
+| Art Institute of Chicago | `/api/v1/artworks/search`; constrain `is_public_domain: true`; require `image_id` | Official IIIF Image API URLs from returned `image_id` | https://api.artic.edu/docs/ |
+| Cleveland Museum of Art | `/api/artworks/` with `cc0` and `has_image=1`; also require `share_license_status === "CC0"` | Museum-supplied `images.web.url` / `images.print.url` | https://openaccess-api.clevelandart.org/ |
+
+The Met's `/v1.1/search` is used instead of the legacy `/v1/search`, which the current API documentation says was scheduled for retirement on 2026-10-01. The Met documentation also says no API key is required and asks API users to keep request rates within 80 requests/second; this app requests 12 search IDs per batch and fetches details with concurrency capped at four.
+
+The Art Institute's documentation recommends filtering images to records marked public domain and notes the IIIF image URL pattern. Its general record metadata has separate CC0 / CC-BY terms; the UI uses image rights only for the image itself. Cleveland's documentation says CC0 status controls which records provide CC0 images. ArtFlip seed entries preserve the originating museum record link and link back to the exact ArtFlip metadata JSON file for inspection.
+
+## Duplicate handling
+
+ArtFlip records are stored as a small metadata index (`artflip-figure-index.js`), not as image files. Source IDs are namespaced as `artflip-<id>`. Search results exclude the Phase 2 starter objects by ID and collapse repeated works by normalized title + artist across ArtFlip and live museum APIs. The dynamic library excludes the Phase 2 seed IDs `met-438013`, `met-438661`, `met-337063`, and `mia-1655`. It also skips duplicates by source record ID, normalized title + artist, and normalized image identifier/filename across sources. No new image file is copied into the project. A complete remote-repository inventory was not available from the connected GitHub account during this phase, so cross-checking any additional files manually added to a private/other repository remains a deployment-time check.
+
+## ArtFlip catalogue note
+
+ArtFlip repository: https://github.com/lewdry/artflip. Its README lists 6,280 public-domain records in the 2026-09-06 count and describes museum sources. That is a general art set, not a verified 6,280-item nude catalogue. Its general source catalogue is not a verified 6,280-item nude catalogue. Phase 4 searched the `Female Nudes` and `Male Nudes` metadata terms, checked candidate records individually, excluded false-positive/ambiguous matches and records clearly identified as child subjects (including a “Young Girl” bathing record), and retained 49 image-available, `isPublicDomain: true` picks. The selected artworks load from the originating museum image URLs; no binary assets, ArtFlip thumbnails or bulk dump are re-hosted.

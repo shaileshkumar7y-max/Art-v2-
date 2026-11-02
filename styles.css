@@ -66,3 +66,64 @@ html{scroll-padding-top:105px}
   .creator-section{padding-top:58px}.creator-connect-card{padding:17px;border-radius:16px;margin-bottom:13px}.creator-connect-copy h3{font-size:20px}.creator-connect-copy>p:not(.eyebrow){font-size:10px}.creator-connect-controls{gap:9px}.creator-budget-row{gap:8px}.creator-auth-actions .button{flex:1;padding-inline:12px;font-size:10px}
   .creator-workspace{gap:12px}.creator-form-panel,.creator-result-panel{padding:16px;border-radius:16px}.creator-panel-heading{margin-bottom:16px}.creator-panel-heading h3{font-size:18px}.creator-control-grid{gap:11px}.creator-field{font-size:10px}.creator-field input,.creator-field select,.creator-field textarea{font-size:12px;padding:11px 10px}.creator-span-2{grid-column:1/-1}.creator-form-actions{display:grid;grid-template-columns:1fr;gap:8px}.creator-form-actions .button{width:100%}#creatorPrompt{min-height:235px}.creator-output{min-height:200px}.creator-output img{max-height:55vh}.creator-output-actions .button{flex:1;font-size:10px;padding-inline:10px}.creator-helper,.creator-privacy-note{font-size:9px}.creator-redirect-row{align-items:flex-start;flex-direction:column;gap:5px}
 }
+
+/* PHASE 4 — live open-access museum collections */
+.collection-section{padding-top:78px}
+.collection-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 21px;padding:14px 0;border-block:1px solid var(--line)}
+.collection-metrics>div{display:flex;flex-direction:column;align-items:center;gap:2px;border-right:1px solid var(--line)}
+.collection-metrics>div:last-child{border:0}
+.collection-metrics strong{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--accent-light)}
+.collection-metrics span{font-size:9px;letter-spacing:.14em;color:var(--muted)}
+.collection-toolbar{display:grid;gap:13px;margin-bottom:18px}
+.collection-search{max-width:none;width:100%;height:auto;min-height:47px;border-radius:14px;padding:5px 7px 5px 14px}
+.collection-search input{font-size:13px}
+.search-submit{border:0;border-radius:999px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:9px 15px;white-space:nowrap}
+.collection-chips{gap:7px}
+.collection-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px}
+.collection-options .creator-field select{min-height:42px}
+.collection-status{min-height:38px;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--muted);font-size:11px;line-height:1.5;margin-bottom:17px}
+.collection-status.success{border-color:rgba(105,167,131,.3);color:#8fc4a2}
+.collection-status.partial{border-color:rgba(201,164,126,.28);color:var(--gold)}
+.collection-status.error{border-color:rgba(197,107,121,.35);color:var(--accent-light)}
+.collection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.collection-card{min-width:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel);cursor:pointer;transition:transform .2s,border-color .2s}
+.collection-card:hover{transform:translateY(-3px);border-color:rgba(197,111,127,.5)}
+.collection-card-image{position:relative;aspect-ratio:4/5;display:grid;place-items:center;overflow:hidden;background:linear-gradient(140deg,#4b3538,#211a1b)}
+.collection-card-image img{width:100%;height:100%;object-fit:cover;display:block}
+.collection-source-tag{position:absolute;left:9px;right:9px;bottom:9px;width:max-content;max-width:calc(100% - 18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:5px 8px;background:rgba(17,13,14,.78);backdrop-filter:blur(8px);color:#f2e7df;font-size:9px;letter-spacing:.05em}
+.collection-card .heart-button{position:absolute;top:9px;right:9px}
+.collection-card-info{padding:12px 12px 13px}
+.collection-card-info h3{font-family:var(--serif);font-size:15px;line-height:1.25;font-weight:500;margin:0 0 5px}
+.collection-card-info p{font-size:11px;color:var(--muted);margin:0;min-height:28px}
+.collection-card-info .card-foot{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);margin-top:10px;padding-top:8px;color:var(--soft);font-size:10px}
+.collection-card-info .card-foot span:last-child{color:var(--accent-light);font-weight:700;letter-spacing:.08em}
+.collection-more-wrap{display:flex;flex-direction:column;align-items:center;gap:9px;margin-top:23px;text-align:center}
+.collection-more-wrap .button:disabled{opacity:.55;cursor:wait;transform:none}
+.collection-more-wrap p{font-size:10px;color:var(--soft);max-width:620px;margin:0}
+.collection-rights{border-top:1px solid var(--line);padding-top:15px}
+.collection-rights code{font-size:10px;color:var(--accent-light)}
+.collection-modal .modal-image-wrap{background:#211819}
+.collection-modal .modal-image-wrap img{object-fit:contain}
+.collection-modal .modal-info{padding-top:45px}
+@media(max-width:900px){.collection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){
+  .collection-section{padding-top:55px}
+  .collection-metrics{margin-bottom:16px;padding:12px 0}
+  .collection-metrics strong{font-size:19px}
+  .collection-metrics span{font-size:9px;letter-spacing:.06em}
+  .collection-search{margin-bottom:0;min-height:45px;padding-left:11px}
+  .collection-search input{font-size:12px}
+  .search-submit{padding:8px 11px;font-size:12px}
+  .collection-options{gap:8px}
+  .collection-options .creator-field{font-size:10px}
+  .collection-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .collection-card{border-radius:13px}
+  .collection-card-info{padding:10px 9px 11px}
+  .collection-card-info h3{font-size:14px}
+  .collection-card-info p{font-size:10px;min-height:28px}
+  .collection-card-info .card-foot{font-size:9px}
+  .collection-source-tag{font-size:9px;left:7px;bottom:7px}
+  .collection-status{font-size:10px;margin-bottom:12px}
+  .collection-modal .modal-image-wrap{height:40vh;min-height:230px}
+  .collection-modal .modal-info{padding:20px 18px}
+}

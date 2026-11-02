@@ -35,6 +35,7 @@
     </a>
     <nav class="top-nav" aria-label="Main navigation">
       <button class="nav-link active" data-target="art-section">Artworks</button>
+      <button class="nav-link" data-target="collection-section">Collections</button>
       <button class="nav-link" data-target="pose-section">Pose atlas</button>
       <button class="nav-link" data-target="creator-section">AI Creator</button>
       <button class="nav-link" data-target="saved-section">Saved <span class="saved-count" id="savedCount">0</span></button>
@@ -52,6 +53,7 @@
         <p class="hero-lede">A curated corner for classical fine art, confident figure studies and the craft behind every composition.</p>
         <div class="hero-actions">
           <button class="button button-primary" data-scroll="art-section">Explore the gallery <span aria-hidden="true">↗</span></button>
+          <button class="button button-quiet" data-scroll="collection-section">Explore art library</button>
           <button class="button button-quiet" data-scroll="pose-section">Open pose atlas</button>
           <button class="button button-quiet" data-scroll="creator-section">Create artwork ✦</button>
         </div>
@@ -76,8 +78,8 @@
 
     <section class="section wrap" id="art-section">
       <div class="section-heading">
-        <div><p class="eyebrow">01 / THE COLLECTION</p><h2>Artworks <em>worth a closer look.</em></h2></div>
-        <p class="section-aside">Classical works selected for composition, line, light and the timeless study of the human form.</p>
+        <div><p class="eyebrow">01 / THE STARTER SHELF</p><h2>Curated picks <em>worth a closer look.</em></h2></div>
+        <p class="section-aside">A small set of starter works from the original build. The expanded museum library lives in Collections below.</p>
       </div>
       <div class="toolbar">
         <label class="search-box"><span aria-hidden="true">⌕</span><input id="artSearch" type="search" placeholder="Search artist, title or medium…" autocomplete="off"><kbd>/</kbd></label>
@@ -92,10 +94,45 @@
       <p class="section-note">Artwork images are loaded from the source gallery; each card keeps the museum record and rights information attached.</p>
     </section>
 
+
+    <section class="section wrap collection-section" id="collection-section">
+      <div class="section-heading">
+        <div><p class="eyebrow">02 / THE OPEN-ACCESS LIBRARY</p><h2>Figure art <em>without the tiny shelf.</em></h2></div>
+        <p class="section-aside">Browse 49 verified ArtFlip figure-art picks, then search live museum collections. Only public-domain / CC0 records with a usable image are shown.</p>
+      </div>
+      <div class="collection-metrics" aria-live="polite">
+        <div><strong id="collectionLoaded">0</strong><span>LOADED HERE</span></div>
+        <div><strong>04</strong><span>ART SOURCES</span></div>
+        <div><strong>PD / CC0</strong><span>RIGHTS FILTER</span></div>
+      </div>
+      <div class="collection-toolbar">
+        <label class="search-box collection-search"><span aria-hidden="true">⌕</span><input id="collectionSearch" type="search" placeholder="Search nude art, artist, title or subject…" autocomplete="off"><button class="search-submit" id="runCollectionSearch" type="button">Search</button></label>
+        <div class="filter-row collection-chips" id="collectionFilters" aria-label="Search figure art collections">
+          <button class="filter-chip active" data-query="nude">All figure art</button>
+          <button class="filter-chip" data-query="female nude">Female figure</button>
+          <button class="filter-chip" data-query="male nude">Male figure</button>
+          <button class="filter-chip" data-query="reclining nude">Reclining</button>
+          <button class="filter-chip" data-query="bather">Bathers</button>
+          <button class="filter-chip" data-query="Venus nude">Mythology</button>
+          <button class="filter-chip" data-query="figure study">Study & gesture</button>
+          <button class="filter-chip" data-query="nude sculpture">Sculpture</button>
+        </div>
+        <div class="collection-options">
+          <label class="creator-field"><span>Source / library</span><select id="collectionSource"><option value="all">All open sources</option><option value="artflip">ArtFlip figure index</option><option value="met">The Met</option><option value="aic">Art Institute of Chicago</option><option value="cma">Cleveland Museum</option></select></label>
+          <label class="creator-field"><span>Sort results</span><select id="collectionSort"><option value="relevance">Museum relevance</option><option value="title">Title A–Z</option><option value="artist">Artist A–Z</option></select></label>
+        </div>
+      </div>
+      <div class="collection-status" id="collectionStatus" role="status" aria-live="polite">Ready to search the museum libraries. Results load in small batches to keep the phone responsive.</div>
+      <div class="collection-grid" id="collectionGrid" aria-live="polite"></div>
+      <p class="empty-state hidden" id="collectionEmpty">No eligible artworks found for this search. Try another subject or museum.</p>
+      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">Load more adds another small batch. Images stay hosted by the museums and are not copied into this repository.</p></div>
+      <p class="rights-note collection-rights">Rights filter: ArtFlip seed records are included only when the ArtFlip metadata has <code>isPublicDomain = true</code>; The Met — <code>isPublicDomain = true</code>; Art Institute of Chicago — <code>is_public_domain = true</code>; Cleveland Museum — <code>share_license_status = CC0</code>. Image URLs come from each museum’s official open-access image service. Search results are live and can change as museum records are updated.</p>
+    </section>
+
     <section class="pose-section" id="pose-section">
       <div class="wrap section">
         <div class="section-heading">
-          <div><p class="eyebrow">02 / THE STUDY ROOM</p><h2>Pose atlas <em>from every angle.</em></h2></div>
+          <div><p class="eyebrow">03 / THE STUDY ROOM</p><h2>Pose atlas <em>from every angle.</em></h2></div>
           <p class="section-aside">Faceless mannequin references for studying gesture, balance and silhouette. Choose a pose, then switch viewpoints.</p>
         </div>
         <div class="toolbar pose-toolbar">
@@ -112,7 +149,7 @@
 
     <section class="section wrap creator-section" id="creator-section">
       <div class="section-heading">
-        <div><p class="eyebrow">03 / THE CREATIVE STUDIO</p><h2>AI Creator <em>make it yours.</em></h2></div>
+        <div><p class="eyebrow">04 / THE CREATIVE STUDIO</p><h2>AI Creator <em>make it yours.</em></h2></div>
         <p class="section-aside">Build a fine-art prompt, choose an available image model and create a new study. Generation uses your own approved Pollinations budget.</p>
       </div>
 
@@ -175,7 +212,7 @@
 
     <section class="section wrap saved-section" id="saved-section">
       <div class="section-heading">
-        <div><p class="eyebrow">04 / YOUR PRIVATE SHELF</p><h2>Saved <em>for later.</em></h2></div>
+        <div><p class="eyebrow">05 / YOUR PRIVATE SHELF</p><h2>Saved <em>for later.</em></h2></div>
         <p class="section-aside">Your favourites stay in this browser. No account and no server storage in this Phase 2 build.</p>
       </div>
       <div class="saved-grid" id="savedGrid"></div>
@@ -187,7 +224,7 @@
     <a class="brand footer-brand" href="#top"><span class="brand-monogram">NC<span>•</span></span><span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span></a>
     <p>Bold art. Raw beauty. Zero boring rules.</p>
     <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener">Sources & licences</a><a href="README.md" target="_blank" rel="noopener">Project notes</a></div>
-    <small class="copyright">PHASE 3 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
+    <small class="copyright">PHASE 4 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
   </footer>
 
   <div class="modal-backdrop hidden" id="artModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -212,8 +249,18 @@
     </div>
   </div>
 
+  <div class="modal-backdrop hidden" id="collectionModal" role="dialog" aria-modal="true" aria-labelledby="collectionModalTitle">
+    <div class="art-modal collection-modal">
+      <button class="modal-close" id="closeCollectionModal" aria-label="Close artwork viewer">×</button>
+      <div class="modal-image-wrap"><img id="collectionModalImage" alt=""></div>
+      <div class="modal-info"><p class="eyebrow" id="collectionModalMuseum">OPEN-ACCESS MUSEUM</p><h2 id="collectionModalTitle"></h2><p class="modal-artist" id="collectionModalArtist"></p><dl id="collectionModalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="collectionModalSave" type="button">♡ Save artwork</button><a class="button button-quiet" id="collectionModalSource" href="#" target="_blank" rel="noopener">View museum record ↗</a></div><p class="rights-note" id="collectionModalRights"></p></div>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js" defer></script>
   <script src="creator.js" defer></script>
+  <script src="artflip-figure-index.js" defer></script>
+  <script src="collections.js" defer></script>
 </body>
 </html>

@@ -346,4 +346,5 @@ document.querySelectorAll('.nav-link').forEach(button => button.addEventListener
   $(button.dataset.target).scrollIntoView({ behavior: 'smooth' });
 }));
 
+window.nakedCanvasSave = item => toggleSaved(item);
 renderArtworks(); renderPoses(); renderSaved(); updateSavedCount();
