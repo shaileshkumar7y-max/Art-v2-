@@ -115,3 +115,21 @@ The following 20 WebP thumbnails are included under `assets/artflip-thumbs/`. Th
 ## User's ChatGPT Library — Phase 6 originals
 
 The `assets/my-studio/` WebP files were derived from eleven images that the user generated in ChatGPT and selected from their own Library. They are labelled in the UI as **ChatGPT Library · AI-generated** and are not represented as historical museum works, public-domain works, or ArtFlip assets. The PNG source files were not copied into the project; only optimized WebP derivatives are bundled. Original Library file names: `Sepia Classical Figure Study Sheet.png`, `Sepia Renaissance Figure Study Collage(1).png`, `Sepia Classical Sculptor’s Studio Studies.png`, `Vintage Graphite Figure Study Collage.png`, `Classical Couple Figure Study Collage.png`, `Sepia Life Drawing Study Sheet(2).png`, `Classical Figure Study Triad.png`, `Sepia Classical Figure Study Collage(3).png`, `Graphite Couple Figure Study Sheet(1).png`, `Charcoal Figure Study Collage.png`, and `Classical Sepia Boudoir Reclining Nude.png`.
+
+
+## User's ChatGPT Library — Phase 7 additions
+
+Phase 7 adds eight more generated image derivatives selected from the user's own ChatGPT Library. The source images remain in the user's Library unchanged. This project contains only resized/compressed WebP copies; these are labelled **ChatGPT Library · AI-generated** and are not represented as public-domain, CC0, museum-owned or ArtFlip images.
+
+| Original ChatGPT Library image | Bundled WebP path |
+|---|---|
+| Classical Male Anatomy Study Sheet.png | `assets/my-studio/classical-male-anatomy-sheet.webp` |
+| Vintage Graphite Figure Study Sheet.png | `assets/my-studio/vintage-graphite-figure-sheet.webp` |
+| Sepia Bathhouse Figure Studies.png | `assets/my-studio/sepia-bathhouse-figure-studies.webp` |
+| Classical Atelier Figure Study Sheet.png | `assets/my-studio/classical-atelier-figure-study.webp` |
+| Classical Triptych Life Drawing Studies.png | `assets/my-studio/classical-triptych-life-drawing.webp` |
+| Monochrome Figure Study Sketchbook.png | `assets/my-studio/monochrome-figure-sketchbook.webp` |
+| Classical Charcoal Study of Two Poses.png | `assets/my-studio/classical-charcoal-two-poses.webp` |
+| Graphite Anatomy Study: Ideas 8 and 9.png | `assets/my-studio/graphite-anatomy-ideas-8-9.webp` |
+
+There are nineteen Studio artwork entries in total after Phase 7. The original Library files are not changed. If you upload the app to a public GitHub repository or publish it with GitHub Pages, the included optimized art copies become publicly accessible along with the website. Confirm this is intended before deployment.

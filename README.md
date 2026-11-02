@@ -1,6 +1,6 @@
 # Naked Canvas — Phase 5 Brand & Art Library Build
 
-A lightweight, Android-first static fine-art gallery with a curated open-access figure-art library, pose atlas and AI Creator studio. This update preserves the Phase 2 gallery and Phase 3 Creator, then builds on 52 curated ArtFlip public-domain figure-art records, 20 locally bundled WebP thumbnails and live search across three museum open-access APIs.
+A lightweight, Android-first static fine-art gallery with a curated open-access figure-art library, pose atlas and AI Creator studio. The project preserves the Phase 2 gallery and Phase 3 Creator, includes 52 curated ArtFlip public-domain figure-art records, 20 locally bundled WebP thumbnails, live search across three museum open-access APIs, and 19 locally bundled user-generated ChatGPT Library figure-study artworks.
 
 ## What is included
 
@@ -112,11 +112,32 @@ See `PHASE_2_QA.md`, `PHASE_3_QA.md`, `PHASE_4_QA.md` and `PHASE_5_QA.md` for pe
 
 ## Phase 6 — Android / mobile performance
 
-- Eleven original figure-study images selected from the user's ChatGPT Library are bundled locally in `assets/my-studio/` as optimized WebP (not ArtFlip images).
-- Each original PNG was about 3.1–3.9 MB; the optimized WebP files total about 3.03 MiB. Gallery cards use lazy loading and asynchronous decoding.
+- The initial eleven original figure-study images selected from the user's ChatGPT Library are bundled locally in `assets/my-studio/` as optimized WebP (not ArtFlip images).
+- Phase 7 adds eight more distinct ChatGPT Library generations, bringing the My Studio Shelf to nineteen original compositions. The new eight source PNGs total about 25.90 MiB; their WebP derivatives total about 1.30 MiB.
+- All nineteen WebP files total about 4.34 MiB. The original Library PNG files are not overwritten or deleted; only optimized copies are included in this app. Gallery cards use lazy loading and asynchronous decoding.
 - A versioned service worker caches same-origin HTML, CSS, JavaScript, the manifest, icons, the generated Studio images, and the small local open-access thumbnail set for offline browsing.
 - External museum APIs, museum image hosts, Shisei images, Pollinations OAuth and generation endpoints are intentionally not cached. No tokens or API credentials enter the cache.
 - A web app manifest and standalone icons support installation on compatible Android browsers.
 - Collections and studio art have touch-friendly controls, responsive two-column mobile cards, modal swipe navigation, keyboard actions and reduced-motion support.
 
 The age gate is a self-attestation prompt, not identity or age verification.
+
+
+## Phase 7 — final hardening, regression checks and additional Library art
+
+- Added eight additional, visually inspected, distinct figure-study compositions from the user's ChatGPT Library: Classical Male Anatomy Study Sheet, Vintage Graphite Figure Study Sheet, Sepia Bathhouse Figure Studies, Classical Atelier Figure Study Sheet, Classical Triptych Life Drawing Studies, Monochrome Figure Study Sketchbook, Classical Charcoal Study of Two Poses, and Graphite Anatomy Study — Ideas 8 and 9.
+- My Studio Shelf now contains nineteen AI-generated works in total. They are clearly labelled as user-generated ChatGPT Library art, not museum/public-domain items.
+- Added an HTML meta Content Security Policy and strict-origin-when-cross-origin referrer policy. Because GitHub Pages does not provide per-project custom response headers, a meta policy is a client-side defence-in-depth layer, not a substitute for HTTP response headers. Meta CSP cannot express every directive (for example, `frame-ancestors`).
+- Saved shelf records are validated and normalised before rendering; invalid IDs, unsafe image schemes and malformed localStorage shapes are discarded from the render model.
+- Museum API image and record URLs are constrained to HTTPS before being placed in the gallery.
+- Pollinations OAuth discovery endpoints are pinned to the official HTTPS origin; callback state and same-origin redirect are checked; only a short-lived `sk_` token is accepted and kept in sessionStorage; generated media URLs are restricted to Pollinations HTTPS hosts.
+- Service-worker cache is versioned `v7`. Essential shell files are precached as a required group; optional local artworks are cached separately so one optional asset failure cannot prevent the app shell from installing. External APIs, OAuth requests, remote images and access tokens are not cached.
+- The 18+ gate is a self-attestation only. It does not verify age or identity.
+
+### Phase 7 release limits
+
+- This is a static GitHub Pages-compatible app. There is no server-side session, server-side moderation, admin console or server-side security boundary.
+- The HTML CSP is intentionally compatible with the project's external fonts, image hosts and API endpoints. Its `img-src https:` allowance is broader than a strict host allow-list because the museum catalogue uses multiple image hosts; tighten that list only after live museum API URLs have been audited.
+- OAuth provider behaviour, Pollinations CORS/token exchange, current model catalogue, real image generation, and all three museum APIs still require a live HTTPS/browser test.
+- Browser automation and physical Android testing were not completed in this environment. See `PHASE_7_QA.md` for exact pass/pending status.
+- Before a public deployment, inspect the generated Library images and confirm that you intend these artistic-nudity images to be visible to anyone who can access the public repository/site. Review the hosting provider's current content rules before publishing.

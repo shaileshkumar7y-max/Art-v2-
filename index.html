@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; connect-src 'self' https://gen.pollinations.ai https://*.pollinations.ai https://enter.pollinations.ai https://collectionapi.metmuseum.org https://api.artic.edu https://openaccess-api.clevelandart.org https://raw.githubusercontent.com https://images.metmuseum.org https://fonts.googleapis.com https://fonts.gstatic.com; worker-src 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#120f11">
   <meta name="color-scheme" content="dark light">
@@ -27,7 +29,7 @@
       <div class="brand-mark">NC<span>•</span></div>
       <p class="eyebrow">ART AFTER DARK</p>
       <h1 id="gateTitle">A little bold.<br><em>A lot of art.</em></h1>
-      <p class="gate-copy">This gallery contains adult classical figure studies and non-explicit artistic nudity. Please confirm that you are 18 or older.</p>
+      <p class="gate-copy">This gallery contains adult classical figure studies and non-explicit artistic nudity. Please confirm that you are 18 or older. This is a self-attestation, not identity or age verification.</p>
       <button class="button button-primary button-wide" id="confirmAge">I’m 18 or older — enter</button>
       <p class="gate-foot">Academic fine art only. Keep it respectful, keep it legal.</p>
     </div>
@@ -107,12 +109,12 @@
     <section class="section wrap collection-section" id="collection-section">
       <div class="section-heading">
         <div><p class="eyebrow">02 / YOUR STUDIO + OPEN-ACCESS LIBRARY</p><h2>Figure art <em>without the tiny shelf.</em></h2></div>
-        <p class="section-aside" data-voice data-en="Start with your eleven original ChatGPT Library figure-study artworks, then explore curated open-access museum references. Generated work and historical collection records stay clearly labelled." data-hi="Pehle tumhari ChatGPT Library ki 11 original figure-study artworks dekho, phir museum references explore karo. AI-generated art aur historical works alag-alag labelled hain.">Start with your eleven original ChatGPT Library figure-study artworks, then explore curated open-access museum references. Generated work and historical collection records stay clearly labelled.</p>
+        <p class="section-aside" data-voice data-en="Start with your nineteen original ChatGPT Library figure-study artworks, then explore curated open-access museum references. Generated work and historical collection records stay clearly labelled." data-hi="Pehle tumhari ChatGPT Library ki 19 original figure-study artworks dekho, phir museum references explore karo. AI-generated art aur historical works alag-alag labelled hain.">Start with your nineteen original ChatGPT Library figure-study artworks, then explore curated open-access museum references. Generated work and historical collection records stay clearly labelled.</p>
       </div>
       <div class="studio-library-block" id="studio-library">
         <div class="studio-library-heading">
           <div><p class="eyebrow">CHATGPT LIBRARY / YOUR ORIGINALS</p><h3>My studio shelf <em>made for close study.</em></h3></div>
-          <p>Eleven distinct figure-study artworks selected from your ChatGPT Library. Bundled locally, compressed for mobile, and labelled as AI-generated artwork.</p>
+          <p>Nineteen distinct figure-study artworks selected from your ChatGPT Library. Bundled locally, compressed for mobile, and labelled as AI-generated artwork.</p>
         </div>
         <div class="studio-art-grid" id="studioArtGrid" aria-label="Your ChatGPT-generated figure study artworks"></div>
       </div>
@@ -141,7 +143,7 @@
       <div class="collection-status" id="collectionStatus" role="status" aria-live="polite">Ready to search the museum libraries. Results load in small batches to keep the phone responsive.</div>
       <div class="collection-grid" id="collectionGrid" aria-live="polite"></div>
       <p class="empty-state hidden" id="collectionEmpty">No eligible artworks found for this search. Try another subject or museum.</p>
-      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">Your eleven generated Studio artworks are stored locally in optimized WebP. Museum source previews and full-size records remain separately attributed.</p></div>
+      <div class="collection-more-wrap"><button class="button button-primary" id="collectionLoadMore" type="button">Load more artworks ↓</button><p id="collectionMoreNote">Your nineteen generated Studio artworks are stored locally in optimized WebP. Museum source previews and full-size records remain separately attributed.</p></div>
       <p class="rights-note collection-rights">Rights filter: ArtFlip seed records are included only when the ArtFlip metadata has <code>isPublicDomain = true</code>; The Met — <code>isPublicDomain = true</code>; Art Institute of Chicago — <code>is_public_domain = true</code>; Cleveland Museum — <code>share_license_status = CC0</code>. Image URLs come from each museum’s official open-access image service. Search results are live and can change as museum records are updated.</p>
     </section>
 
@@ -178,7 +180,7 @@
         </div>
         <div class="creator-connect-controls">
           <label class="creator-field"><span>Pollinations App Key <small>(public client ID)</small></span><input id="pollinationsClientId" type="text" inputmode="text" autocomplete="off" placeholder="pk_…" maxlength="160"></label>
-          <div class="creator-redirect-row"><button class="text-button" id="copyRedirectUri" type="button">Copy this page’s redirect URL</button><a href="https://enter.pollinations.ai/keys" target="_blank" rel="noopener">Create App Key ↗</a></div>
+          <div class="creator-redirect-row"><button class="text-button" id="copyRedirectUri" type="button">Copy this page’s redirect URL</button><a href="https://enter.pollinations.ai/keys" target="_blank" rel="noopener noreferrer">Create App Key ↗</a></div>
           <div class="creator-budget-row">
             <label class="creator-field"><span>Consent budget <small>(Pollen cap)</small></span><input id="creatorBudget" type="number" min="0.1" max="100" step="0.1" value="1"></label>
             <label class="creator-field"><span>Key expiry</span><select id="creatorExpiry"><option value="1">1 day</option><option value="7" selected>7 days</option><option value="30">30 days</option></select></label>
@@ -208,7 +210,7 @@
             <label class="creator-field creator-span-2"><span>Output size</span><select id="creatorSize"><option value="1024x1024">Square · 1024 × 1024</option><option value="768x1024">Portrait · 768 × 1024</option><option value="1024x768">Landscape · 1024 × 768</option><option value="1024x1536">Tall poster · 1024 × 1536</option></select></label>
           </div>
           <div class="creator-form-actions"><button class="button button-quiet" id="buildCreatorPrompt" type="button">Build prompt</button><button class="button button-primary" id="generateCreatorImage" type="button" disabled>Generate artwork ✦</button></div>
-          <p class="creator-helper">Prompt building and copying are free. Image generation requires a connected Pollinations account and may use your approved Pollen budget. Check the <a href="https://gen.pollinations.ai/image/models" target="_blank" rel="noopener">live model catalogue</a> before generating.</p>
+          <p class="creator-helper">Prompt building and copying are free. Image generation requires a connected Pollinations account and may use your approved Pollen budget. Check the <a href="https://gen.pollinations.ai/image/models" target="_blank" rel="noopener noreferrer">live model catalogue</a> before generating.</p>
         </div>
 
         <div class="creator-result-panel">
@@ -239,7 +241,7 @@
   <footer class="site-footer wrap">
     <a class="brand footer-brand" href="#top"><span class="brand-monogram">NC<span>•</span></span><span class="brand-words"><strong>NAKED CANVAS</strong><small>ART AFTER DARK</small></span></a>
     <p class="footer-tagline" data-voice data-en="A little bold. Fully classy. Zero cheap shots." data-hi="Thoda bold. Full classy. Cheap drama zero.">A little bold. Fully classy. Zero cheap shots.</p>
-    <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener">Sources & licences</a><a href="README.md" target="_blank" rel="noopener">Project notes</a></div>
+    <div class="footer-links"><a href="SOURCES_AND_LICENCES.md" target="_blank" rel="noopener noreferrer">Sources & licences</a><a href="README.md" target="_blank" rel="noopener noreferrer">Project notes</a></div>
     <div class="pwa-footer-row"><button class="button button-quiet install-app hidden" id="installAppButton" type="button">Install app ↓</button><span id="connectionStatus" class="connection-status" role="status">Online · offline-ready library</span></div>
     <small class="copyright">PHASE 6 BUILD · ADULT CLASSICAL FINE ART · NON-EXPLICIT PRESENTATION</small>
   </footer>
@@ -249,7 +251,7 @@
       <button class="modal-close" id="closeArtModal" aria-label="Close artwork viewer">×</button>
       <button class="modal-arrow modal-prev" id="prevArtwork" aria-label="Previous artwork">‹</button>
       <div class="modal-image-wrap"><img id="modalImage" alt=""><span class="image-index" id="imageIndex"></span></div>
-      <div class="modal-info"><p class="eyebrow" id="modalMuseum">MUSEUM COLLECTION</p><h2 id="modalTitle"></h2><p class="modal-artist" id="modalArtist"></p><dl id="modalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="modalSave">♡ Save artwork</button><a class="button button-quiet" id="sourceLink" href="#" target="_blank" rel="noopener">View museum record ↗</a></div><p class="rights-note" id="modalRights"></p></div>
+      <div class="modal-info"><p class="eyebrow" id="modalMuseum">MUSEUM COLLECTION</p><h2 id="modalTitle"></h2><p class="modal-artist" id="modalArtist"></p><dl id="modalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="modalSave">♡ Save artwork</button><a class="button button-quiet" id="sourceLink" href="#" target="_blank" rel="noopener noreferrer">View museum record ↗</a></div><p class="rights-note" id="modalRights"></p></div>
       <button class="modal-arrow modal-next" id="nextArtwork" aria-label="Next artwork">›</button>
     </div>
   </div>
@@ -270,7 +272,7 @@
     <div class="art-modal collection-modal">
       <button class="modal-close" id="closeCollectionModal" aria-label="Close artwork viewer">×</button>
       <div class="modal-image-wrap"><img id="collectionModalImage" alt=""></div>
-      <div class="modal-info"><p class="eyebrow" id="collectionModalMuseum">OPEN-ACCESS MUSEUM</p><h2 id="collectionModalTitle"></h2><p class="modal-artist" id="collectionModalArtist"></p><dl id="collectionModalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="collectionModalSave" type="button">♡ Save artwork</button><a class="button button-quiet" id="collectionModalSource" href="#" target="_blank" rel="noopener">View museum record ↗</a></div><p class="rights-note" id="collectionModalRights"></p></div>
+      <div class="modal-info"><p class="eyebrow" id="collectionModalMuseum">OPEN-ACCESS MUSEUM</p><h2 id="collectionModalTitle"></h2><p class="modal-artist" id="collectionModalArtist"></p><dl id="collectionModalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="collectionModalSave" type="button">♡ Save artwork</button><a class="button button-quiet" id="collectionModalSource" href="#" target="_blank" rel="noopener noreferrer">View museum record ↗</a></div><p class="rights-note" id="collectionModalRights"></p></div>
     </div>
   </div>
 
@@ -280,7 +282,7 @@
       <button class="modal-close" id="closeStudioArtModal" aria-label="Close studio artwork viewer">×</button>
       <button class="modal-arrow modal-prev" id="prevStudioArt" aria-label="Previous studio artwork">‹</button>
       <div class="modal-image-wrap studio-modal-image"><img id="studioArtModalImage" alt=""></div>
-      <div class="modal-info"><p class="eyebrow">CHATGPT LIBRARY · AI-GENERATED</p><h2 id="studioArtModalTitle"></h2><p class="modal-artist" id="studioArtModalStyle"></p><dl id="studioArtModalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="studioArtModalSave" type="button">♡ Save to My Shelf</button><a class="button button-quiet" id="studioArtOpenImage" href="#" target="_blank" rel="noopener">Open image ↗</a><a class="button button-quiet" id="studioArtDownload" href="#" download>Download WebP ↓</a></div><p class="rights-note" id="studioArtModalNote">Selected from your generated ChatGPT Library. Optimized WebP copy is stored with this static app.</p></div>
+      <div class="modal-info"><p class="eyebrow">CHATGPT LIBRARY · AI-GENERATED</p><h2 id="studioArtModalTitle"></h2><p class="modal-artist" id="studioArtModalStyle"></p><dl id="studioArtModalMeta"></dl><div class="modal-actions"><button class="button button-primary" id="studioArtModalSave" type="button">♡ Save to My Shelf</button><a class="button button-quiet" id="studioArtOpenImage" href="#" target="_blank" rel="noopener noreferrer">Open image ↗</a><a class="button button-quiet" id="studioArtDownload" href="#" download>Download WebP ↓</a></div><p class="rights-note" id="studioArtModalNote">Selected from your generated ChatGPT Library. Optimized WebP copy is stored with this static app.</p></div>
       <button class="modal-arrow modal-next" id="nextStudioArt" aria-label="Next studio artwork">›</button>
     </div>
   </div>

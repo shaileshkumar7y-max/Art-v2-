@@ -66,7 +66,7 @@
     try {
       const expiry = Number(sessionStorage.getItem(TOKEN_EXPIRY_STORAGE) || 0);
       const token = sessionStorage.getItem(TOKEN_STORAGE) || '';
-      if (token && (!expiry || Date.now() < expiry)) return token;
+      if (token && /^sk_[A-Za-z0-9_-]{8,}$/.test(token) && Number.isFinite(expiry) && expiry > Date.now()) return token;
       sessionStorage.removeItem(TOKEN_STORAGE);
       sessionStorage.removeItem(TOKEN_EXPIRY_STORAGE);
     } catch (_) {}
@@ -89,7 +89,13 @@
     if (!metadata.authorization_endpoint || !metadata.token_endpoint) {
       throw new Error('Pollinations sign-in metadata is missing required OAuth endpoints.');
     }
-    return metadata;
+    const trustedOrigin = 'https://enter.pollinations.ai';
+    const authorizationEndpoint = new URL(metadata.authorization_endpoint);
+    const tokenEndpoint = new URL(metadata.token_endpoint);
+    if ([authorizationEndpoint, tokenEndpoint].some(endpoint => endpoint.protocol !== 'https:' || endpoint.origin !== trustedOrigin || endpoint.username || endpoint.password)) {
+      throw new Error('Pollinations returned an untrusted sign-in endpoint. Connection stopped for safety.');
+    }
+    return { ...metadata, authorization_endpoint: authorizationEndpoint.href, token_endpoint: tokenEndpoint.href };
   }
 
   function randomBase64Url(byteCount = 32) {
@@ -168,10 +174,17 @@
     if (!code && !oauthError) return;
 
     const returnedState = url.searchParams.get('state') || '';
-    const expectedState = sessionStorage.getItem(STATE_STORAGE) || '';
-    const verifier = sessionStorage.getItem(VERIFIER_STORAGE) || '';
-    const redirectUri = sessionStorage.getItem(REDIRECT_STORAGE) || cleanPageUrl();
-    const clientId = sessionStorage.getItem(CLIENT_TEMP_STORAGE) || localStorage.getItem(CLIENT_ID_STORAGE) || '';
+    let expectedState = '', verifier = '', redirectUri = cleanPageUrl(), clientId = '';
+    try {
+      expectedState = sessionStorage.getItem(STATE_STORAGE) || '';
+      verifier = sessionStorage.getItem(VERIFIER_STORAGE) || '';
+      redirectUri = sessionStorage.getItem(REDIRECT_STORAGE) || cleanPageUrl();
+      clientId = sessionStorage.getItem(CLIENT_TEMP_STORAGE) || localStorage.getItem(CLIENT_ID_STORAGE) || '';
+    } catch (_) {
+      window.history.replaceState({}, document.title, cleanPageUrl());
+      setAuthStatus('Browser session storage is unavailable. Reopen the page in a normal browser tab and connect again.', 'error');
+      return;
+    }
     window.history.replaceState({}, document.title, cleanPageUrl());
 
     if (oauthError) {
@@ -179,7 +192,12 @@
       setAuthStatus(oauthError === 'access_denied' ? 'Connection cancelled. You have not been connected.' : `Sign-in was not completed: ${oauthError}.`, 'error');
       return;
     }
-    if (!code || !returnedState || returnedState !== expectedState || !verifier || !clientId) {
+    let callbackMatches = false;
+    try {
+      const savedRedirect = new URL(redirectUri);
+      callbackMatches = savedRedirect.origin === window.location.origin && savedRedirect.pathname === window.location.pathname && !savedRedirect.search && !savedRedirect.hash;
+    } catch (_) {}
+    if (!code || !returnedState || returnedState !== expectedState || !verifier || !/^pk_[A-Za-z0-9_-]{8,}$/.test(clientId) || !callbackMatches) {
       clearOAuthScratch();
       setAuthStatus('Sign-in callback could not be verified. Start the connection again.', 'error');
       return;
@@ -205,7 +223,12 @@
         const reason = tokenData.error_description || tokenData.message || tokenData.error || `HTTP ${response.status}`;
         throw new Error(`Pollinations connection failed: ${reason}`);
       }
-      const expiresAt = Date.now() + (Number(tokenData.expires_in) || 7 * 24 * 60 * 60) * 1000;
+      if (!/^sk_[A-Za-z0-9_-]{8,}$/.test(String(tokenData.access_token))) {
+        throw new Error('Pollinations returned an unexpected credential format. No token was stored.');
+      }
+      const reportedExpiry = Number(tokenData.expires_in);
+      const lifetimeSeconds = Number.isFinite(reportedExpiry) && reportedExpiry > 0 ? Math.min(reportedExpiry, 30 * 24 * 60 * 60) : 60 * 60;
+      const expiresAt = Date.now() + lifetimeSeconds * 1000;
       sessionStorage.setItem(TOKEN_STORAGE, tokenData.access_token);
       sessionStorage.setItem(TOKEN_EXPIRY_STORAGE, String(expiresAt));
       accessToken = tokenData.access_token;
@@ -232,7 +255,7 @@
       if (!response.ok) throw new Error(`Catalogue request returned ${response.status}`);
       const payload = await response.json();
       const rows = Array.isArray(payload) ? payload : (payload.data || payload.models || []);
-      modelCatalog = rows.filter(model => model && model.id && String(model.type || model.modality || 'image').toLowerCase() !== 'video');
+      modelCatalog = rows.filter(model => model && typeof model.id === 'string' && /^[A-Za-z0-9._:/-]{1,120}$/.test(model.id) && String(model.type || model.modality || 'image').toLowerCase() !== 'video');
       if (!modelCatalog.length) throw new Error('No official image models were returned.');
       select.innerHTML = '';
       modelCatalog.forEach(model => {
@@ -330,11 +353,18 @@
       if (!item) throw new Error('The provider returned no image. Try another model or prompt.');
       if (item.url) {
         const providerUrl = new URL(item.url, API_BASE);
-        if (providerUrl.protocol !== 'https:') throw new Error('The provider returned an unsupported image URL.');
+        const host = providerUrl.hostname.toLowerCase();
+        const pollinationsHost = host === 'pollinations.ai' || host.endsWith('.pollinations.ai');
+        if (providerUrl.protocol !== 'https:' || !pollinationsHost || providerUrl.username || providerUrl.password) {
+          throw new Error('The provider returned an image URL outside the trusted Pollinations domain.');
+        }
         currentImageUrl = providerUrl.href;
         if (currentImageBlobUrl) URL.revokeObjectURL(currentImageBlobUrl);
         currentImageBlobUrl = '';
       } else if (item.b64_json) {
+        if (typeof item.b64_json !== 'string' || item.b64_json.length > 16000000 || !/^[A-Za-z0-9+/]*={0,2}$/.test(item.b64_json)) {
+          throw new Error('The generated image payload is malformed or larger than the 12 MB decoded safety limit.');
+        }
         const binary = atob(item.b64_json);
         const bytes = new Uint8Array(binary.length);
         for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);

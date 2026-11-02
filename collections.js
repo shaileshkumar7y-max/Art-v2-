@@ -18,6 +18,17 @@
   };
   const safe = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const text = value => String(value ?? '').trim();
+  const safeHttps = (value, fallback = '') => {
+    try {
+      const url = new URL(String(value ?? ''));
+      return url.protocol === 'https:' && !url.username && !url.password ? url.href : fallback;
+    } catch (_) { return fallback; }
+  };
+  const safeImageRef = (value, fallback = '') => {
+    const raw = String(value ?? '').trim();
+    if (/^assets\/[A-Za-z0-9._/-]+$/.test(raw) && !raw.split('/').includes('..')) return raw;
+    return safeHttps(raw, fallback);
+  };
   const normalise = value => text(value).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
   const parseYear = value => {
     const match = text(value).match(/-?\d{3,4}/);
@@ -39,14 +50,17 @@
   }
 
   function mapMet(record) {
-    if (!record || record.isPublicDomain !== true || !record.primaryImageSmall) return null;
+    if (!record || record.isPublicDomain !== true) return null;
+    const thumb = safeHttps(record.primaryImageSmall);
+    if (!thumb) return null;
+    const image = safeHttps(record.primaryImage, thumb);
     const title = text(record.title);
     const artist = text(record.artistDisplayName) || 'Artist not recorded';
     return {
       id: `met-${record.objectID}`, museumKey: 'met', title, artist,
       year: parseYear(record.objectDate), medium: text(record.medium) || 'Medium not recorded',
-      museum: 'The Metropolitan Museum of Art', image: record.primaryImage || record.primaryImageSmall,
-      thumb: record.primaryImageSmall, sourceUrl: record.objectURL || `https://www.metmuseum.org/art/collection/search/${record.objectID}`,
+      museum: 'The Metropolitan Museum of Art', image,
+      thumb, sourceUrl: safeHttps(record.objectURL, `https://www.metmuseum.org/art/collection/search/${encodeURIComponent(record.objectID)}`),
       rights: 'Public domain — the museum record marks this object as public domain (CC0 open-access data).',
       kind: text(record.objectName) || text(record.classification) || 'Artwork',
       tags: (record.tags || []).map(item => item.term).filter(Boolean).slice(0, 12)
@@ -55,13 +69,14 @@
 
   function mapAic(record, iiifBase) {
     if (!record || record.is_public_domain !== true || !record.image_id) return null;
-    const image = `${iiifBase || 'https://www.artic.edu/iiif/2'}/${encodeURIComponent(record.image_id)}/full/1200,/0/default.jpg`;
-    const thumb = `${iiifBase || 'https://www.artic.edu/iiif/2'}/${encodeURIComponent(record.image_id)}/full/600,/0/default.jpg`;
+    const baseUrl = safeHttps(iiifBase, 'https://www.artic.edu/iiif/2').replace(/\/+$/, '');
+    const image = `${baseUrl}/${encodeURIComponent(record.image_id)}/full/1200,/0/default.jpg`;
+    const thumb = `${baseUrl}/${encodeURIComponent(record.image_id)}/full/600,/0/default.jpg`;
     return {
       id: `aic-${record.id}`, museumKey: 'aic', title: text(record.title), artist: text(record.artist_title) || 'Artist not recorded',
       year: parseYear(record.date_display), medium: text(record.medium_display) || 'Medium not recorded',
       museum: 'Art Institute of Chicago', image, thumb,
-      sourceUrl: `https://www.artic.edu/artworks/${record.id}`,
+      sourceUrl: `https://www.artic.edu/artworks/${encodeURIComponent(record.id)}`,
       rights: 'Public domain image — the Art Institute record marks this artwork as public domain. Metadata fields carry the museum’s stated CC0/CC-BY terms.',
       kind: text(record.artwork_type_title) || 'Artwork', tags: []
     };
@@ -69,14 +84,14 @@
 
   function mapCma(record) {
     if (!record || String(record.share_license_status).toUpperCase() !== 'CC0') return null;
-    const image = record.images?.web?.url || record.images?.print?.url || record.images?.full?.url;
+    const image = safeHttps(record.images?.web?.url || record.images?.print?.url || record.images?.full?.url);
     if (!image) return null;
     const creators = Array.isArray(record.creators) ? record.creators.map(item => item.description || item.name).filter(Boolean) : [];
     return {
       id: `cma-${record.id}`, museumKey: 'cma', title: text(record.title), artist: creators.join(', ') || text(record.tombstone).split(',')[0] || 'Artist not recorded',
       year: parseYear(record.creation_date), medium: text(record.technique) || text(record.medium) || 'Medium not recorded',
-      museum: 'Cleveland Museum of Art', image, thumb: record.images?.web?.url || image,
-      sourceUrl: record.url || `https://www.clevelandart.org/art/${record.id}`,
+      museum: 'Cleveland Museum of Art', image, thumb: safeHttps(record.images?.web?.url, image),
+      sourceUrl: safeHttps(record.url, `https://www.clevelandart.org/art/${encodeURIComponent(record.id)}`),
       rights: 'CC0 — the museum record marks the image as open access; copyrighted/non-CC0 images are excluded.',
       kind: text(record.type) || 'Artwork', tags: []
     };
@@ -132,13 +147,17 @@
   }
 
   function mapArtflip(record) {
-    if (!record || record.isPublicDomain !== true || !record.id || !record.title || !record.image || !record.sourceUrl) return null;
+    if (!record || record.isPublicDomain !== true || !record.id || !record.title) return null;
+    const image = safeHttps(record.image);
+    const thumb = safeImageRef(record.thumb, image);
+    const sourceUrl = safeHttps(record.sourceUrl);
+    if (!image || !thumb || !sourceUrl) return null;
     const tags = Array.isArray(record.tags) ? record.tags : [];
     return {
       id: `artflip-${record.id}`, museumKey: 'artflip', title: text(record.title),
       artist: text(record.artist) || 'Artist not recorded', year: text(record.year) || 'Date not recorded',
       medium: text(record.medium) || 'Medium not recorded', museum: `${text(record.museum) || 'Museum collection'} · ArtFlip index`,
-      image: record.image, thumb: record.thumb || record.image, sourceUrl: record.sourceUrl,
+      image, thumb, sourceUrl,
       rights: record.thumb ? 'The local preview is included from ArtFlip’s CC0 public-domain thumbnail library. The full-size image remains on the originating museum host; follow the linked museum record for provenance and any credit notes.' : 'ArtFlip metadata marks this object as public domain. The full-size image is loaded from the linked museum image host. Follow the linked museum record for provenance and any credit notes.',
       kind: tags.includes('sculpture') || /bronze|marble|ceramic|terracotta|wood|ivory|alabaster/i.test(record.medium || '') ? 'Sculpture / object' : 'Figure artwork',
       tags, indexSource: 'ArtFlip public-domain metadata', metadataUrl: `https://github.com/lewdry/artflip/blob/main/public/metadata/${record.id}.json`
@@ -227,7 +246,7 @@
     if (source === 'all' || source === 'met') notes.push(`Met: ${state.totals.met ?? '—'}`);
     if (source === 'all' || source === 'aic') notes.push(`Chicago: ${state.totals.aic ?? '—'}`);
     if (source === 'all' || source === 'cma') notes.push(`Cleveland: ${state.totals.cma ?? '—'}`);
-    $('collectionMoreNote').textContent = `Eligible search matches: ${notes.join(' · ')}. Your eleven ChatGPT Library studio artworks are bundled locally in optimized WebP; museum images remain linked to their source collections.`;
+    $('collectionMoreNote').textContent = `Eligible search matches: ${notes.join(' · ')}. Your nineteen ChatGPT Library studio artworks are bundled locally in optimized WebP; museum images remain linked to their source collections.`;
   }
 
   function setStatus(message, kind = '') {
@@ -286,7 +305,7 @@
     $('collectionModalMuseum').textContent = item.museum.toUpperCase();
     $('collectionModalTitle').textContent = item.title;
     $('collectionModalArtist').textContent = `${item.artist} · ${item.year}`;
-    const indexRow = item.metadataUrl ? `<dt>Metadata index</dt><dd><a href="${safe(item.metadataUrl)}" target="_blank" rel="noopener">ArtFlip source JSON ↗</a></dd>` : '';
+    const indexRow = item.metadataUrl ? `<dt>Metadata index</dt><dd><a href="${safe(item.metadataUrl)}" target="_blank" rel="noopener noreferrer">ArtFlip source JSON ↗</a></dd>` : '';
     $('collectionModalMeta').innerHTML = `<dt>Medium</dt><dd>${safe(item.medium)}</dd><dt>Collection</dt><dd>${safe(item.museum)}</dd><dt>Type</dt><dd>${safe(item.kind)}</dd>${indexRow}`;
     $('collectionModalRights').textContent = item.rights;
     $('collectionModalSource').href = item.sourceUrl;

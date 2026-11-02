@@ -64,9 +64,37 @@ const safeText = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': 
 const artImage = artwork => artwork.image;
 const poseImage = (pose, angle) => pose.views[angle] ? `${POSE_RAW}/${pose.views[angle]}` : '';
 
+function safeSavedImage(value) {
+  const raw = String(value ?? '').trim();
+  if (!raw || raw.length > 2048 || raw.includes('\\')) return '';
+  if (/^(assets|icons)\/[A-Za-z0-9._/-]+$/.test(raw) && !raw.split('/').includes('..')) return raw;
+  try {
+    const url = new URL(raw, window.location.href);
+    if (url.protocol === 'https:' && !url.username && !url.password) return url.href;
+    if (url.origin === window.location.origin && url.protocol === window.location.protocol) return url.href;
+  } catch (_) {}
+  return '';
+}
+function normaliseSavedItem(item) {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
+  const id = String(item.id ?? '').trim();
+  const title = String(item.title ?? '').trim().slice(0, 180);
+  const thumb = safeSavedImage(item.thumb || item.image || '');
+  if (!/^[A-Za-z0-9][A-Za-z0-9._:-]{0,99}$/.test(id) || !title || !thumb) return null;
+  const type = ['art', 'pose', 'studio-art'].includes(item.type) ? item.type : 'art';
+  return { id, title, artist: String(item.artist ?? '').slice(0, 140), thumb, type };
+}
 function readSaved() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-  catch { return []; }
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!Array.isArray(parsed)) return [];
+    const unique = new Map();
+    parsed.forEach(item => {
+      const clean = normaliseSavedItem(item);
+      if (clean) unique.set(clean.id, clean);
+    });
+    return [...unique.values()];
+  } catch { return []; }
 }
 function persistSaved() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
@@ -76,14 +104,16 @@ function persistSaved() {
 }
 function isSaved(id) { return saved.some(item => item.id === id); }
 function toggleSaved(item) {
-  if (isSaved(item.id)) saved = saved.filter(entry => entry.id !== item.id);
-  else saved = [...saved, item];
+  const clean = normaliseSavedItem(item);
+  if (!clean) { showToast('This item could not be saved safely.'); return; }
+  if (isSaved(clean.id)) saved = saved.filter(entry => entry.id !== clean.id);
+  else saved = [...saved, clean];
   persistSaved();
   renderSaved();
   renderArtworks();
   renderPoses();
   updateModalSaveState();
-  showToast(isSaved(item.id) ? 'Saved to your private shelf.' : 'Removed from your shelf.');
+  showToast(isSaved(clean.id) ? 'Saved to your private shelf.' : 'Removed from your shelf.');
 }
 window.nakedCanvasSave = toggleSaved;
 window.nakedCanvasIsSaved = isSaved;
