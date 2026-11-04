@@ -1,382 +1,255 @@
 'use strict';
+(() => {
+  const $ = id => document.getElementById(id);
+  const ART_KEY = 'after-dark-art-saved-v1';
+  const AGE_KEY = 'after-dark-art-adult-v1';
+  const ART_RAW = 'https://raw.githubusercontent.com/shaileshkumar7y-max/Art-v2-/main/';
+  const SHISEI_RAW = 'https://raw.githubusercontent.com/wquguru/shisei/main/images/line/w600/';
+  const STUDIO_FILES = [
+    ['charcoal-figure-study-collage.webp','Charcoal Figure Study Collage','Graphite & charcoal','graphite'],
+    ['classical-boudoir-reclining-study.webp','Classical Reclining Study','Classical study','classical'],
+    ['classical-couple-figure-study.webp','Classical Couple Study','Couple study','classical'],
+    ['classical-figure-study-triad.webp','Classical Figure Study Triad','Figure study','classical'],
+    ['classical-sculptors-studio.webp','Sculptor’s Studio','Sculpture & atelier','sculpture'],
+    ['graphite-couple-figure-study.webp','Graphite Couple Study','Graphite & charcoal','graphite'],
+    ['graphite-figure-study-collage.webp','Graphite Figure Collage','Graphite & charcoal','graphite'],
+    ['renaissance-figure-study-collage.webp','Renaissance Figure Collage','Classical study','classical'],
+    ['sepia-classical-figure-study.webp','Sepia Classical Figure Study','Figure study','classical'],
+    ['sepia-female-figure-study.webp','Sepia Figure Study','Figure study','female'],
+    ['sepia-life-drawing-study.webp','Sepia Life Drawing','Life drawing','classical']
+  ].map((entry, index) => ({
+    id: `studio-${index + 1}`, title: entry[1], artist: 'Studio library', year: 'Library artwork', medium: entry[2],
+    museum: 'Naked Canvas Studio Library', sourceUrl: 'https://github.com/shaileshkumar7y-max/Art-v2-',
+    image: `${ART_RAW}${entry[0]}`, isPublicDomain: false, source: 'studio', category: entry[3], tags: [entry[3], entry[2].toLowerCase()]
+  }));
 
-const ART_RAW = 'https://raw.githubusercontent.com/lewdry/artflip/main/public';
-const POSE_RAW = 'https://raw.githubusercontent.com/wquguru/shisei/main/images/line/w600';
+  const POSES = [
+    { id:'P001', title:'Sitting, one knee raised', category:'sitting', description:'A relaxed seated pose for studying gesture, balance and the relationship between the torso and legs.', views:{front:'std_P001_front.webp',diag:'std_P001_diag.webp',side:'std_P001_side.webp',above:'std_P001_above.webp',below:'std_P001_below.webp'} },
+    { id:'P015', title:'Standing contrapposto', category:'standing', description:'A balanced standing pose with weight shifted to one leg and a natural counter-curve.', views:{front:'std_P015_front.webp',diag:'std_P015_diag.webp',side:'std_P015_side.webp',below:'std_P015_below.webp'} },
+    { id:'P032', title:'Kneeling, hands behind head', category:'kneeling', description:'A general kneeling reference for observing shoulder, elbow and torso alignment.', views:{front:'std_P032_front.webp',diag:'std_P032_diag.webp',side:'std_P032_side.webp',above:'std_P032_above.webp'} },
+    { id:'P049', title:'Lying on back, arms overhead', category:'lying', description:'A reclining silhouette study that explores line, reach and body balance.', views:{front:'std_P049_front.webp',diag:'std_P049_diag.webp',side:'std_P049_side.webp',below:'std_P049_below.webp'} },
+    { id:'P058', title:'Squatting, hands on knees', category:'dynamic', description:'A compact squat useful for studying balance, joint angles and weight distribution.', views:{front:'std_P058_front.webp',diag:'std_P058_diag.webp',side:'std_P058_side.webp',above:'std_P058_above.webp',below:'std_P058_below.webp'} },
+    { id:'P064', title:'Bent forward, hands on knees', category:'dynamic', description:'A forward hinge reference for studying the spine line and centre of gravity.', views:{front:'std_P064_front.webp',diag:'std_P064_diag.webp',side:'std_P064_side.webp',above:'std_P064_above.webp',below:'std_P064_below.webp'} },
+    { id:'P073', title:'Standing twist, arms spread', category:'dynamic', description:'A twisting standing gesture for studying rotation through the shoulders and waist.', views:{front:'std_P073_front.webp',diag:'std_P073_diag.webp',below:'std_P073_below.webp'} },
+    { id:'P070', title:'Standing, arched backward', category:'dynamic', description:'A controlled arch for examining line, balance and the shape of a standing pose.', views:{side:'std_P070_side.webp',below:'std_P070_below.webp'} }
+  ];
 
-const artworks = [
-  {
-    id: 'met-438013', title: 'Reclining Nude', artist: 'Auguste Renoir', year: '1883', medium: 'Oil on canvas',
-    museum: 'The Metropolitan Museum of Art', category: 'painting', kind: 'Painting',
-    thumb: `${ART_RAW}/thumbs/438013.webp`, image: `${ART_RAW}/images/438013.jpg`,
-    fallback: 'https://images.metmuseum.org/CRDImages/ep/web-large/DP-14976-001.jpg',
-    sourceUrl: 'https://www.metmuseum.org/art/collection/search/438013', rights: 'Public domain — Met record marks this object as public domain.',
-    tags: ['classical', 'figure study', 'reclining', 'female nude']
-  },
-  {
-    id: 'met-438661', title: 'Study of a Female Nude', artist: 'Henri Lehmann', year: '1840', medium: 'Oil on canvas',
-    museum: 'The Metropolitan Museum of Art', category: 'painting', kind: 'Painting',
-    thumb: `${ART_RAW}/thumbs/438661.webp`, image: `${ART_RAW}/images/438661.jpg`,
-    fallback: 'https://images.metmuseum.org/CRDImages/ep/web-large/DP103071.jpg',
-    sourceUrl: 'https://www.metmuseum.org/art/collection/search/438661', rights: 'Public domain — Met record marks this object as public domain.',
-    tags: ['classical', 'figure study', 'academic', 'female nude']
-  },
-  {
-    id: 'met-337063', title: 'Reclining Female Nude', artist: 'Rembrandt van Rijn', year: '1658', medium: 'Etching, drypoint and engraving',
-    museum: 'The Metropolitan Museum of Art', category: 'drawing', kind: 'Print',
-    thumb: `${ART_RAW}/thumbs/337063.webp`, image: `${ART_RAW}/images/337063.jpg`,
-    fallback: 'https://images.metmuseum.org/CRDImages/dp/web-large/DP815606.jpg',
-    sourceUrl: 'https://www.metmuseum.org/art/collection/search/337063', rights: 'Public domain — Met record marks this object as public domain.',
-    tags: ['classical', 'print', 'etching', 'reclining']
-  },
-  {
-    id: 'mia-1655', title: 'Nude on a Couch', artist: 'Gustave Caillebotte', year: 'c. 1880', medium: 'Oil on canvas',
-    museum: 'Minneapolis Institute of Art', category: 'painting', kind: 'Painting',
-    thumb: `${ART_RAW}/thumbs/mia-1655.webp`, image: `${ART_RAW}/images/mia-1655.jpg`,
-    fallback: '', sourceUrl: 'https://collections.artsmia.org/art/1655',
-    rights: 'ArtFlip metadata marks this record as public domain. Verify the museum record before commercial reuse.',
-    tags: ['classical', 'figure study', 'interior']
+  let category = 'all';
+  let activeSource = 'all';
+  let activeArtwork = null;
+  let activePose = null;
+  let activeAngle = '';
+  let visibleCount = 18;
+  let toastTimer = 0;
+  let saved = loadSaved();
+
+  function loadSaved() {
+    try {
+      const value = JSON.parse(localStorage.getItem(ART_KEY) || '[]');
+      return new Set(Array.isArray(value) ? value.filter(item => typeof item === 'string').slice(0, 300) : []);
+    } catch { return new Set(); }
   }
-];
-
-const angleLabels = { front: 'FRONT VIEW', diag: 'THREE-QUARTER VIEW', side: 'SIDE VIEW', above: 'ABOVE VIEW', below: 'BELOW VIEW' };
-const poseSets = [
-  { id: 'P001', title: 'Sitting, one knee raised', category: 'sitting', description: 'A relaxed seated pose with one knee raised and the torso gently leaning back.', views: { front: 'std_P001_front.webp', diag: 'std_P001_diag.webp', side: 'std_P001_side.webp', above: 'std_P001_above.webp', below: 'std_P001_below.webp' } },
-  { id: 'P015', title: 'Standing contrapposto', category: 'standing', description: 'A balanced standing pose with weight shifted to one leg and one hand resting at the hip.', views: { front: 'std_P015_front.webp', diag: 'std_P015_diag.webp', side: 'std_P015_side.webp', above: null, below: 'std_P015_below.webp' } },
-  { id: 'P032', title: 'Kneeling, hands behind head', category: 'kneeling', description: 'A kneeling pose for studying the line of the shoulders, elbows and torso.', views: { front: 'std_P032_front.webp', diag: 'std_P032_diag.webp', side: 'std_P032_side.webp', above: 'std_P032_above.webp', below: null } },
-  { id: 'P049', title: 'Lying on back, arms overhead', category: 'lying', description: 'A reclining full-body silhouette with both arms extended overhead.', views: { front: 'std_P049_front.webp', diag: 'std_P049_diag.webp', side: 'std_P049_side.webp', above: null, below: 'std_P049_below.webp' } },
-  { id: 'P058', title: 'Squatting, hands on knees', category: 'dynamic', description: 'A compact squat that makes the balance of the torso and lower body easy to compare.', views: { front: 'std_P058_front.webp', diag: 'std_P058_diag.webp', side: 'std_P058_side.webp', above: 'std_P058_above.webp', below: 'std_P058_below.webp' } },
-  { id: 'P064', title: 'Bent forward, hands on knees', category: 'dynamic', description: 'A forward hinge useful for studying the spine curve and weight distribution.', views: { front: 'std_P064_front.webp', diag: 'std_P064_diag.webp', side: 'std_P064_side.webp', above: 'std_P064_above.webp', below: 'std_P064_below.webp' } },
-  { id: 'P073', title: 'Standing twist, arms spread', category: 'dynamic', description: 'A twisting standing pose for studying rotation through the shoulders and waist.', views: { front: 'std_P073_front.webp', diag: 'std_P073_diag.webp', side: null, above: null, below: 'std_P073_below.webp' } },
-  { id: 'P070', title: 'Standing, arched backward', category: 'dynamic', description: 'A controlled back-arching pose that highlights the curve of the torso.', views: { front: null, diag: null, side: 'std_P070_side.webp', above: null, below: 'std_P070_below.webp' } }
-].map(p => ({ ...p, image: `${POSE_RAW}/${p.views.diag || p.views.front || p.views.side || p.views.below}` }));
-
-const STORAGE_KEY = 'naked-canvas-phase2-favourites';
-const CONSENT_KEY = 'naked-canvas-18plus-confirmed';
-let saved = readSaved();
-let currentArtIndex = 0;
-let currentPose = null;
-let currentAngle = 'front';
-let artFilter = 'all';
-let poseFilter = 'all';
-
-const $ = id => document.getElementById(id);
-const safeText = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-const artImage = artwork => artwork.image;
-const poseImage = (pose, angle) => pose.views[angle] ? `${POSE_RAW}/${pose.views[angle]}` : '';
-
-function safeSavedImage(value) {
-  const raw = String(value ?? '').trim();
-  if (!raw || raw.length > 2048 || raw.includes('\\')) return '';
-  if (/^(assets|icons)\/[A-Za-z0-9._/-]+$/.test(raw) && !raw.split('/').includes('..')) return raw;
-  try {
-    const url = new URL(raw, window.location.href);
-    if (url.protocol === 'https:' && !url.username && !url.password) return url.href;
-    if (url.origin === window.location.origin && url.protocol === window.location.protocol) return url.href;
-  } catch (_) {}
-  return '';
-}
-function normaliseSavedItem(item) {
-  if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
-  const id = String(item.id ?? '').trim();
-  const title = String(item.title ?? '').trim().slice(0, 180);
-  const thumb = safeSavedImage(item.thumb || item.image || '');
-  if (!/^[A-Za-z0-9][A-Za-z0-9._:-]{0,99}$/.test(id) || !title || !thumb) return null;
-  const type = ['art', 'pose', 'studio-art'].includes(item.type) ? item.type : 'art';
-  return { id, title, artist: String(item.artist ?? '').slice(0, 140), thumb, type };
-}
-function readSaved() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    if (!Array.isArray(parsed)) return [];
-    const unique = new Map();
-    parsed.forEach(item => {
-      const clean = normaliseSavedItem(item);
-      if (clean) unique.set(clean.id, clean);
+  function persistSaved() {
+    try { localStorage.setItem(ART_KEY, JSON.stringify([...saved])); } catch { showToast('Browser storage is full. Remove a few saved items.'); }
+    updateSavedCount();
+  }
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  }
+  function safeHttps(value) {
+    try { const url = new URL(String(value || '')); return url.protocol === 'https:' ? url.href : ''; } catch { return ''; }
+  }
+  function showToast(message) {
+    const toast = $('toast'); toast.textContent = message; toast.classList.add('show');
+    window.clearTimeout(toastTimer); toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2300);
+  }
+  function updateSavedCount() { $('savedCount').textContent = String(saved.size); }
+  function museumRecords() {
+    const source = Array.isArray(window.NAKED_CANVAS_ARTFLIP_FIGURES) ? window.NAKED_CANVAS_ARTFLIP_FIGURES : [];
+    return source.filter(item => item && item.isPublicDomain === true && safeHttps(item.image) && safeHttps(item.sourceUrl)).map(item => ({...item, source:'museum', category:categoryFor(item)}));
+  }
+  function categoryFor(item) {
+    const text = `${item.title || ''} ${item.artist || ''} ${item.medium || ''} ${(item.tags || []).join(' ')}`.toLowerCase();
+    if (/male|man |men|serf|male figure/.test(text)) return 'male';
+    if (/female|woman|women|bather|venus|diana|nude/.test(text)) return 'female';
+    if (/sculpt|bronze|marble|terracotta|ceramic/.test(text)) return 'sculpture';
+    if (/graphite|charcoal|drawing|print/.test(text)) return 'graphite';
+    return 'classical';
+  }
+  function allArtworks() { return [...STUDIO_FILES, ...museumRecords()]; }
+  function matchesCategory(item) {
+    if (category === 'all') return true;
+    const values = [item.category, ...(item.tags || []).map(tag => String(tag).toLowerCase())].join(' ');
+    if (category === 'classical') return /classical|figure|myth|renaissance/.test(values);
+    return values.includes(category);
+  }
+  function filteredArtworks() {
+    const query = $('searchInput').value.trim().toLowerCase();
+    return allArtworks().filter(item => {
+      const sourceMatch = activeSource === 'all' || item.source === activeSource;
+      const categoryMatch = matchesCategory(item);
+      const text = [item.title,item.artist,item.year,item.medium,item.museum,...(item.tags || [])].join(' ').toLowerCase();
+      return sourceMatch && categoryMatch && (!query || text.includes(query));
     });
-    return [...unique.values()];
-  } catch { return []; }
-}
-function persistSaved() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
-  catch { showToast('Browser storage is unavailable. Your favourites may not persist.'); }
-  updateSavedCount();
-  window.dispatchEvent(new Event('nakedcanvas:saved-change'));
-}
-function isSaved(id) { return saved.some(item => item.id === id); }
-function toggleSaved(item) {
-  const clean = normaliseSavedItem(item);
-  if (!clean) { showToast('This item could not be saved safely.'); return; }
-  if (isSaved(clean.id)) saved = saved.filter(entry => entry.id !== clean.id);
-  else saved = [...saved, clean];
-  persistSaved();
-  renderSaved();
-  renderArtworks();
-  renderPoses();
-  updateModalSaveState();
-  showToast(isSaved(clean.id) ? 'Saved to your private shelf.' : 'Removed from your shelf.');
-}
-window.nakedCanvasSave = toggleSaved;
-window.nakedCanvasIsSaved = isSaved;
-function updateSavedCount() { $('savedCount').textContent = String(saved.length); }
-function showToast(message) {
-  const toast = $('toast');
-  toast.textContent = message;
-  toast.classList.add('show');
-  clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toast.classList.remove('show'), 2100);
-}
-function markImageUnavailable(img) {
-  img.classList.add('image-error');
-  const frame = img.closest('.art-card-image, .pose-image, .pose-stage, .modal-image-wrap, .saved-item');
-  if (frame) frame.classList.add('load-failed');
-}
-function withFallback(img, fallback) {
-  img.addEventListener('error', () => {
-    if (fallback && !img.dataset.fallbackUsed) {
-      img.dataset.fallbackUsed = '1';
-      img.src = fallback;
-      return;
-    }
-    markImageUnavailable(img);
+  }
+  function cardMarkup(item) {
+    const image = safeHttps(item.image);
+    const sourceLabel = item.source === 'studio' ? 'STUDIO LIBRARY' : 'MUSEUM OPEN ACCESS';
+    return `<article class="art-card" data-art-id="${escapeHtml(item.id)}">
+      <div class="art-image-wrap"><img src="${escapeHtml(image)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async"><button class="save-btn${saved.has(String(item.id)) ? ' saved' : ''}" type="button" data-save-art="${escapeHtml(item.id)}" aria-label="${saved.has(String(item.id)) ? 'Remove saved artwork' : 'Save artwork'}">${saved.has(String(item.id)) ? '♥' : '♡'}</button></div>
+      <div class="art-info"><span class="tag">${sourceLabel}</span><h3>${escapeHtml(item.title || 'Untitled artwork')}</h3><p>${escapeHtml(item.artist || 'Artist not recorded')} · ${escapeHtml(item.year || 'Date unknown')}</p><button type="button" class="view-link" data-open-art="${escapeHtml(item.id)}">View artwork ↗</button></div>
+    </article>`;
+  }
+  function renderGallery() {
+    const filtered = filteredArtworks();
+    const shown = filtered.slice(0, visibleCount);
+    $('artGrid').innerHTML = shown.map(cardMarkup).join('');
+    $('emptyState').hidden = filtered.length > 0;
+    $('resultCount').textContent = `${filtered.length} artwork${filtered.length === 1 ? '' : 's'} · showing ${shown.length}`;
+    $('loadMore').hidden = filtered.length <= visibleCount;
+    $('artCount').textContent = String(allArtworks().length);
+    if (!museumRecords().length) $('catalogueNote').textContent = 'Museum catalogue could not be loaded right now. The studio-library artworks remain available; reconnect to view all open-access records.';
+    attachImageFallbacks($('artGrid'));
+  }
+  function attachImageFallbacks(root) {
+    root.querySelectorAll('img').forEach(img => img.addEventListener('error', () => {
+      img.alt = `${img.alt} (image unavailable)`;
+      img.closest('.art-image-wrap')?.classList.add('image-missing');
+    }, {once:true}));
+  }
+  function findArtwork(id) { return allArtworks().find(item => String(item.id) === String(id)) || null; }
+  function openArtwork(id) {
+    const item = findArtwork(id); if (!item) return;
+    activeArtwork = item;
+    $('modalImage').src = safeHttps(item.image);
+    $('modalImage').alt = item.title || 'Artwork';
+    $('modalSource').textContent = item.source === 'studio' ? 'STUDIO LIBRARY / ART-V2' : `${item.museum || 'MUSEUM COLLECTION'} / OPEN ACCESS`;
+    $('modalTitle').textContent = item.title || 'Untitled artwork';
+    $('modalMeta').textContent = `${item.artist || 'Artist not recorded'} · ${item.year || 'Date unknown'} · ${item.medium || 'Medium not recorded'}`;
+    $('modalDescription').textContent = item.source === 'studio' ? 'A locally referenced studio-library study. The original image remains in the Art-v2 repository.' : `Open-access catalogue record from ${item.museum || 'the source museum'}. Check the source record for the museum’s current rights and attribution details.`;
+    $('sourceLink').href = safeHttps(item.sourceUrl) || 'https://github.com/shaileshkumar7y-max/Art-v2-';
+    $('sourceLink').textContent = item.source === 'studio' ? 'Open studio source ↗' : 'View museum record ↗';
+    updateModalSave(); $('detailModal').hidden = false; $('closeModal').focus();
+  }
+  function updateModalSave() {
+    if (!activeArtwork) return;
+    const isSaved = saved.has(String(activeArtwork.id));
+    $('modalSave').textContent = isSaved ? 'Remove from shelf ♥' : 'Save artwork ♡';
+  }
+  function toggleSaved(id) {
+    const key = String(id);
+    if (saved.has(key)) { saved.delete(key); showToast('Removed from your private shelf.'); }
+    else { saved.add(key); showToast('Saved to your private shelf.'); }
+    persistSaved(); renderGallery(); renderSaved(); updateModalSave();
+  }
+  function renderSaved() {
+    const items = [...saved].map(findArtwork).filter(Boolean);
+    $('savedGrid').innerHTML = items.map(cardMarkup).join('');
+    $('savedEmpty').hidden = items.length > 0;
+    attachImageFallbacks($('savedGrid'));
+  }
+  function setTab(tab) {
+    document.querySelectorAll('.tab').forEach(button => button.classList.toggle('active', button.dataset.tab === tab));
+    document.querySelectorAll('.panel').forEach(panel => panel.classList.toggle('active', panel.id === `panel-${tab}`));
+    if (tab === 'saved') renderSaved();
+    if (tab === 'gallery') renderGallery();
+    if (tab === 'poses') renderPoses();
+    window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }
+  function poseImage(name) { return `${SHISEI_RAW}${name}`; }
+  function renderPoses() {
+    const query = $('poseSearch').value.trim().toLowerCase();
+    const filter = $('poseFilter').value;
+    const items = POSES.filter(pose => (filter === 'all' || pose.category === filter) && `${pose.title} ${pose.description} ${pose.category}`.toLowerCase().includes(query));
+    $('poseGrid').innerHTML = items.map(pose => {
+      const first = Object.values(pose.views).find(Boolean);
+      return `<button class="pose-card" type="button" data-open-pose="${pose.id}"><img src="${poseImage(first)}" alt="${escapeHtml(pose.title)} reference" loading="lazy"><div><span>${pose.category.toUpperCase()} / ${Object.values(pose.views).filter(Boolean).length} VIEWS</span><b>${escapeHtml(pose.title)}</b><small>${escapeHtml(pose.description)}</small></div></button>`;
+    }).join('');
+  }
+  function openPose(id) {
+    const pose = POSES.find(item => item.id === id); if (!pose) return;
+    activePose = pose; activeAngle = Object.keys(pose.views).find(angle => pose.views[angle]);
+    $('poseModalTitle').textContent = pose.title; $('poseModalDescription').textContent = pose.description;
+    renderPoseViewer(); $('poseModal').hidden = false; $('closePose').focus();
+  }
+  function renderPoseViewer() {
+    if (!activePose || !activeAngle) return;
+    $('poseModalImage').src = poseImage(activePose.views[activeAngle]);
+    $('poseModalImage').alt = `${activePose.title} — ${activeAngle} view`;
+    $('angleButtons').innerHTML = Object.entries(activePose.views).filter(([,file]) => Boolean(file)).map(([angle]) => `<button type="button" class="angle-btn${angle === activeAngle ? ' active' : ''}" data-angle="${angle}">${angle[0].toUpperCase()}${angle.slice(1)}</button>`).join('');
+  }
+  function buildPrompt() {
+    const subject = $('subject').value;
+    const medium = $('medium').value;
+    const composition = $('composition').value;
+    const lighting = $('lighting').value;
+    const palette = $('palette').value;
+    const direction = $('direction').value;
+    const detail = $('detail').value.trim();
+    const extras = detail ? ` Additional direction: ${detail}.` : '';
+    $('promptOutput').value = `${direction}. ${subject}; ${composition}. Medium: ${medium}. Lighting: ${lighting}. Palette: ${palette}. Carefully observed proportions, expressive gesture, refined composition and museum-quality craft. Adult subjects only; tasteful, non-explicit fine art; no graphic sexual content, coercion or youth-coded styling.${extras}`;
+  }
+  function randomisePrompt() {
+    const options = {
+      subject:['Clearly adult figure study','Clearly adult portrait','Two clearly adult figures, with respectful personal space','Classical sculpture study'],
+      medium:['Graphite and charcoal','Sepia pencil study','Oil painting','Watercolour','Marble sculpture','Fine-art photography'],
+      composition:['Classical contrapposto, balanced silhouette','Seated pose, calm gesture','Reclining composition, museum-style study','Portrait crop, expressive gaze','Gesture drawing, natural weight distribution','Draped figure, sculptural fabric folds'],
+      lighting:['Soft atelier window light','Warm candlelit chiaroscuro','Diffuse museum gallery light','Moonlit dramatic rim light'],
+      palette:['Sepia, charcoal and warm ivory','Oxblood, plum and antique gold','Monochrome graphite','Muted Renaissance earth tones'],
+      direction:['Academic and historically informed','Gothic editorial, tasteful and non-explicit','Renaissance-inspired fine art','Minimal contemporary studio']
+    };
+    Object.entries(options).forEach(([id,values]) => { const select = $(id); select.selectedIndex = Math.floor(Math.random() * values.length); });
+    buildPrompt();
+  }
+  function confirmAge() {
+    try { localStorage.setItem(AGE_KEY, 'yes'); } catch {}
+    $('ageGate').classList.add('hidden');
+  }
+
+  $('confirmAge').addEventListener('click', confirmAge);
+  if (localStorage.getItem(AGE_KEY) === 'yes') $('ageGate').classList.add('hidden');
+  document.querySelectorAll('[data-tab]').forEach(button => button.addEventListener('click', () => setTab(button.dataset.tab)));
+  document.querySelectorAll('[data-scroll]').forEach(button => button.addEventListener('click', () => setTab(button.dataset.scroll === 'poses' ? 'poses' : 'gallery')));
+  $('searchInput').addEventListener('input', () => { visibleCount = 18; renderGallery(); });
+  $('sourceFilter').addEventListener('change', event => { activeSource = event.target.value; visibleCount = 18; renderGallery(); });
+  $('categoryFilters').addEventListener('click', event => {
+    const button = event.target.closest('[data-category]'); if (!button) return;
+    category = button.dataset.category; document.querySelectorAll('[data-category]').forEach(item => item.classList.toggle('active', item === button)); visibleCount = 18; renderGallery();
   });
-}
-function artCard(artwork, index) {
-  const savedClass = isSaved(artwork.id) ? 'saved' : '';
-  return `<article class="art-card" data-art-id="${safeText(artwork.id)}" tabindex="0" role="button" aria-label="Open ${safeText(artwork.title)}">
-    <div class="art-card-image"><img loading="lazy" decoding="async" fetchpriority="low" width="640" height="800" src="${safeText(artwork.thumb)}" data-full="${safeText(artwork.image)}" data-fallback="${safeText(artwork.fallback)}" alt="${safeText(artwork.title)} by ${safeText(artwork.artist)}"><span class="art-tag">${safeText(artwork.kind.toUpperCase())}</span><button class="heart-button ${savedClass}" data-save-art="${safeText(artwork.id)}" aria-label="${savedClass ? 'Remove saved artwork' : 'Save artwork'}">${savedClass ? '♥' : '♡'}</button></div>
-    <div class="art-card-info"><h3>${safeText(artwork.title)}</h3><p>${safeText(artwork.artist)} · ${safeText(artwork.year)}</p><div class="card-foot"><span>${safeText(artwork.museum)}</span><span>VIEW ↗</span></div></div>
-  </article>`;
-}
-function renderArtworks() {
-  const q = $('artSearch').value.trim().toLowerCase();
-  const filtered = artworks.filter(a => (artFilter === 'all' || a.category === artFilter) && [a.title,a.artist,a.year,a.medium,a.museum,...a.tags].join(' ').toLowerCase().includes(q));
-  $('artGrid').innerHTML = filtered.map(a => artCard(a, artworks.indexOf(a))).join('');
-  $('artEmpty').classList.toggle('hidden', filtered.length !== 0);
-  $('artCount').textContent = String(artworks.length).padStart(2, '0');
-  $('artGrid').querySelectorAll('img').forEach(img => withFallback(img, img.dataset.fallback));
-}
-function poseCard(pose) {
-  const savedClass = isSaved(pose.id) ? 'saved' : '';
-  const src = pose.image;
-  return `<article class="pose-card" data-pose-id="${safeText(pose.id)}">
-    <div class="pose-image" data-open-pose="${safeText(pose.id)}" tabindex="0" role="button" aria-label="Open ${safeText(pose.title)} pose angles"><img loading="lazy" decoding="async" fetchpriority="low" width="480" height="620" src="${safeText(src)}" alt="${safeText(pose.title)} — mannequin pose study"></div>
-    <div class="pose-card-info"><div class="pose-topline"><span class="pose-id">${safeText(pose.id)} / SHISEI</span><button class="heart-button ${savedClass}" data-save-pose="${safeText(pose.id)}" aria-label="${savedClass ? 'Remove saved pose' : 'Save pose'}">${savedClass ? '♥' : '♡'}</button></div><h3>${safeText(pose.title)}</h3><p>${safeText(pose.description)}</p><div class="pose-card-actions"><span class="pose-id">${Object.values(pose.views).filter(Boolean).length} VIEWPOINT${Object.values(pose.views).filter(Boolean).length === 1 ? '' : 'S'}</span><button class="text-button" data-open-pose="${safeText(pose.id)}">Explore angles ↗</button></div></div>
-  </article>`;
-}
-function renderPoses() {
-  const q = $('poseSearch').value.trim().toLowerCase();
-  const filtered = poseSets.filter(p => (poseFilter === 'all' || p.category === poseFilter || (poseFilter === 'dynamic' && ['squatting','leaning','twist','arching'].includes(p.category))) && [p.id,p.title,p.description,p.category].join(' ').toLowerCase().includes(q));
-  $('poseGrid').innerHTML = filtered.map(poseCard).join('');
-  $('poseGrid').querySelectorAll('img').forEach(img => img.addEventListener('error', () => markImageUnavailable(img), { once: true }));
-  $('poseEmpty').classList.toggle('hidden', filtered.length !== 0);
-  $('poseCount').textContent = String(poseSets.length).padStart(2, '0');
-}
-function renderSaved() {
-  const grid = $('savedGrid');
-  grid.innerHTML = saved.map(item => `<div class="saved-item"><img loading="lazy" decoding="async" src="${safeText(item.thumb || item.image || '')}" alt=""><div><strong>${safeText(item.title)}</strong><small>${safeText(item.type === 'pose' ? 'Pose reference' : (item.artist || 'Fine art'))}</small></div><button data-remove-saved="${safeText(item.id)}" aria-label="Remove ${safeText(item.title)}">×</button></div>`).join('');
-  $('savedEmpty').classList.toggle('hidden', saved.length !== 0);
-  grid.querySelectorAll('img').forEach(img => img.addEventListener('error', () => markImageUnavailable(img), { once: true }));
-}
-function openArt(artwork) {
-  currentArtIndex = artworks.indexOf(artwork);
-  fillArtModal();
-  $('artModal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  $('closeArtModal').focus();
-}
-function fillArtModal() {
-  const artwork = artworks[currentArtIndex];
-  $('modalImage').src = artwork.image;
-  $('modalImage').alt = `${artwork.title} by ${artwork.artist}`;
-  $('modalImage').onerror = () => {
-    if (artwork.fallback && $('modalImage').dataset.fallbackUsed !== '1') {
-      $('modalImage').dataset.fallbackUsed = '1';
-      $('modalImage').src = artwork.fallback;
-    } else markImageUnavailable($('modalImage'));
-  };
-  $('modalImage').dataset.fallbackUsed = '';
-  $('imageIndex').textContent = `${currentArtIndex + 1} / ${artworks.length}`;
-  $('modalMuseum').textContent = artwork.museum.toUpperCase();
-  $('modalTitle').textContent = artwork.title;
-  $('modalArtist').textContent = `${artwork.artist} · ${artwork.year}`;
-  $('modalMeta').innerHTML = `<dt>Medium</dt><dd>${safeText(artwork.medium)}</dd><dt>Collection</dt><dd>${safeText(artwork.museum)}</dd><dt>Category</dt><dd>${safeText(artwork.kind)}</dd>`;
-  $('sourceLink').href = artwork.sourceUrl;
-  $('modalRights').textContent = artwork.rights;
-  $('modalSave').textContent = isSaved(artwork.id) ? '♥ Saved' : '♡ Save artwork';
-  $('modalSave').dataset.id = artwork.id;
-}
-function updateModalSaveState() {
-  if (!$('artModal').classList.contains('hidden')) {
-    const item = artworks[currentArtIndex];
-    $('modalSave').textContent = isSaved(item.id) ? '♥ Saved' : '♡ Save artwork';
-  }
-  if (currentPose && !$('poseModal').classList.contains('hidden')) $('poseModalSave').textContent = isSaved(currentPose.id) ? '♥' : '♡';
-}
-function closeModal(id) {
-  $(id).classList.add('hidden');
-  if ($('artModal').classList.contains('hidden') && $('poseModal').classList.contains('hidden')) document.body.style.overflow = '';
-}
-function changeArtwork(direction) {
-  currentArtIndex = (currentArtIndex + direction + artworks.length) % artworks.length;
-  fillArtModal();
-}
-function openPose(pose) {
-  currentPose = pose;
-  currentAngle = pose.views.front ? 'front' : Object.keys(pose.views).find(k => pose.views[k]);
-  $('poseModalId').textContent = pose.id;
-  $('poseModalTitle').textContent = pose.title;
-  $('poseModalDesc').textContent = pose.description;
-  $('poseModalSave').textContent = isSaved(pose.id) ? '♥' : '♡';
-  renderPoseAngle();
-  $('poseModal').classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
-  $('closePoseModal').focus();
-}
-function renderPoseAngle() {
-  if (!currentPose) return;
-  const src = poseImage(currentPose, currentAngle);
-  const img = $('poseModalImage');
-  if (src) {
-    img.src = src;
-    img.alt = `${currentPose.title}, ${angleLabels[currentAngle].toLowerCase()}`;
-    img.classList.remove('image-error');
-    $('poseStage')?.classList.remove('load-failed');
-    img.onerror = () => markImageUnavailable(img);
-  }
-  $('poseAngleLabel').textContent = angleLabels[currentAngle];
-  $('angleSwitcher').querySelectorAll('[data-angle]').forEach(btn => {
-    const available = Boolean(currentPose.views[btn.dataset.angle]);
-    btn.disabled = !available;
-    btn.classList.toggle('active', btn.dataset.angle === currentAngle);
-    btn.title = available ? angleLabels[btn.dataset.angle] : 'This angle is not available for this pose';
+  $('clearFilters').addEventListener('click', () => {
+    $('searchInput').value = ''; $('sourceFilter').value = 'all'; activeSource = 'all'; category = 'all'; visibleCount = 18;
+    document.querySelectorAll('[data-category]').forEach(item => item.classList.toggle('active', item.dataset.category === 'all')); renderGallery();
   });
-}
-function selectFilter(containerId, value) {
-  $(containerId).querySelectorAll('[data-filter]').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === value));
-}
-
-$('confirmAge').addEventListener('click', () => {
-  try { localStorage.setItem(CONSENT_KEY, 'yes'); } catch {}
-  $('ageGate').classList.add('hidden');
-});
-try { if (localStorage.getItem(CONSENT_KEY) === 'yes') $('ageGate').classList.add('hidden'); } catch {}
-
-$('artGrid').addEventListener('click', event => {
-  const saveButton = event.target.closest('[data-save-art]');
-  if (saveButton) {
-    event.stopPropagation();
-    const artwork = artworks.find(a => a.id === saveButton.dataset.saveArt);
-    if (artwork) toggleSaved({ id: artwork.id, title: artwork.title, artist: artwork.artist, thumb: artwork.thumb, type: 'art' });
-    return;
-  }
-  const card = event.target.closest('[data-art-id]');
-  if (card) openArt(artworks.find(a => a.id === card.dataset.artId));
-});
-$('artGrid').addEventListener('keydown', event => {
-  if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-art-id]')) {
-    event.preventDefault(); openArt(artworks.find(a => a.id === event.target.dataset.artId));
-  }
-});
-$('poseGrid').addEventListener('keydown', event => {
-  if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-open-pose]')) {
-    event.preventDefault();
-    openPose(poseSets.find(p => p.id === event.target.dataset.openPose));
-  }
-});
-$('poseGrid').addEventListener('click', event => {
-  const saveButton = event.target.closest('[data-save-pose]');
-  if (saveButton) {
-    const pose = poseSets.find(p => p.id === saveButton.dataset.savePose);
-    if (pose) toggleSaved({ id: pose.id, title: pose.title, thumb: poseImage(pose, 'diag'), type: 'pose' });
-    return;
-  }
-  const openButton = event.target.closest('[data-open-pose]');
-  if (openButton) openPose(poseSets.find(p => p.id === openButton.dataset.openPose));
-});
-$('savedGrid').addEventListener('click', event => {
-  const button = event.target.closest('[data-remove-saved]');
-  if (!button) return;
-  const id = button.dataset.removeSaved;
-  saved = saved.filter(item => item.id !== id);
-  persistSaved(); renderSaved(); renderArtworks(); renderPoses(); showToast('Removed from your shelf.');
-});
-$('artFilters').addEventListener('click', event => {
-  const button = event.target.closest('[data-filter]');
-  if (!button) return;
-  artFilter = button.dataset.filter; selectFilter('artFilters', artFilter); renderArtworks();
-});
-$('poseFilters').addEventListener('click', event => {
-  const button = event.target.closest('[data-filter]');
-  if (!button) return;
-  poseFilter = button.dataset.filter; selectFilter('poseFilters', poseFilter); renderPoses();
-});
-$('artSearch').addEventListener('input', renderArtworks);
-$('poseSearch').addEventListener('input', renderPoses);
-$('modalSave').addEventListener('click', () => {
-  const item = artworks[currentArtIndex];
-  toggleSaved({ id: item.id, title: item.title, artist: item.artist, thumb: item.thumb, type: 'art' });
-});
-$('poseModalSave').addEventListener('click', () => {
-  if (!currentPose) return;
-  toggleSaved({ id: currentPose.id, title: currentPose.title, thumb: poseImage(currentPose, 'diag'), type: 'pose' });
-});
-$('angleSwitcher').addEventListener('click', event => {
-  const btn = event.target.closest('[data-angle]');
-  if (!btn || btn.disabled || !currentPose) return;
-  currentAngle = btn.dataset.angle; renderPoseAngle();
-});
-$('closeArtModal').addEventListener('click', () => closeModal('artModal'));
-$('closePoseModal').addEventListener('click', () => closeModal('poseModal'));
-$('prevArtwork').addEventListener('click', () => changeArtwork(-1));
-$('nextArtwork').addEventListener('click', () => changeArtwork(1));
-$('artModal').addEventListener('click', event => { if (event.target === $('artModal')) closeModal('artModal'); });
-$('poseModal').addEventListener('click', event => { if (event.target === $('poseModal')) closeModal('poseModal'); });
-
-// Touch-first navigation: swipe the artwork image to move through the collection,
-// or swipe the pose stage to move between available camera angles.
-function addSwipeNavigation(element, onSwipe) {
-  let start = null;
-  element.addEventListener('pointerdown', event => {
-    if (event.target.closest('button, a, input')) return;
-    start = { x: event.clientX, y: event.clientY };
+  $('loadMore').addEventListener('click', () => { visibleCount += 18; renderGallery(); });
+  $('artGrid').addEventListener('click', event => {
+    const saveButton = event.target.closest('[data-save-art]'); if (saveButton) { event.stopPropagation(); toggleSaved(saveButton.dataset.saveArt); return; }
+    const openButton = event.target.closest('[data-open-art]'); if (openButton) openArtwork(openButton.dataset.openArt);
   });
-  element.addEventListener('pointerup', event => {
-    if (!start) return;
-    const dx = event.clientX - start.x;
-    const dy = event.clientY - start.y;
-    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.25) onSwipe(dx < 0 ? 1 : -1);
-    start = null;
+  $('savedGrid').addEventListener('click', event => {
+    const saveButton = event.target.closest('[data-save-art]'); if (saveButton) { toggleSaved(saveButton.dataset.saveArt); return; }
+    const openButton = event.target.closest('[data-open-art]'); if (openButton) openArtwork(openButton.dataset.openArt);
   });
-  element.addEventListener('pointercancel', () => { start = null; });
-}
-addSwipeNavigation($('modalImage'), direction => changeArtwork(direction));
-addSwipeNavigation($('poseModalImage'), direction => {
-  if (!currentPose) return;
-  const available = ['front','diag','side','above','below'].filter(angle => currentPose.views[angle]);
-  const current = available.indexOf(currentAngle);
-  currentAngle = available[(current + direction + available.length) % available.length];
-  renderPoseAngle();
-});
+  $('modalSave').addEventListener('click', () => { if (activeArtwork) toggleSaved(activeArtwork.id); });
+  $('closeModal').addEventListener('click', () => { $('detailModal').hidden = true; activeArtwork = null; });
+  $('detailModal').addEventListener('click', event => { if (event.target.hasAttribute('data-close-modal')) $('detailModal').hidden = true; });
+  $('poseSearch').addEventListener('input', renderPoses); $('poseFilter').addEventListener('change', renderPoses);
+  $('poseGrid').addEventListener('click', event => { const button = event.target.closest('[data-open-pose]'); if (button) openPose(button.dataset.openPose); });
+  $('angleButtons').addEventListener('click', event => { const button = event.target.closest('[data-angle]'); if (!button || !activePose) return; activeAngle = button.dataset.angle; renderPoseViewer(); });
+  $('closePose').addEventListener('click', () => { $('poseModal').hidden = true; activePose = null; });
+  $('poseModal').addEventListener('click', event => { if (event.target.hasAttribute('data-close-pose')) $('poseModal').hidden = true; });
+  ['subject','medium','composition','lighting','palette','direction','detail'].forEach(id => $(id).addEventListener('input', buildPrompt));
+  $('creatorForm').addEventListener('reset', () => setTimeout(buildPrompt, 0));
+  $('shufflePrompt').addEventListener('click', randomisePrompt);
+  $('copyPrompt').addEventListener('click', async () => {
+    const value = $('promptOutput').value;
+    try { await navigator.clipboard.writeText(value); showToast('Prompt copied.'); }
+    catch { $('promptOutput').focus(); $('promptOutput').select(); showToast('Prompt selected. Use Copy from your browser.'); }
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { $('detailModal').hidden = true; $('poseModal').hidden = true; }
+  });
 
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') { closeModal('artModal'); closeModal('poseModal'); }
-  if (!$('artModal').classList.contains('hidden')) {
-    if (event.key === 'ArrowLeft') changeArtwork(-1);
-    if (event.key === 'ArrowRight') changeArtwork(1);
-  }
-  if (event.key === '/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName) && $('ageGate').classList.contains('hidden')) {
-    event.preventDefault(); $('artSearch').focus();
-  }
-});
-$('themeToggle').addEventListener('click', () => {
-  document.body.classList.toggle('light-theme');
-  try { localStorage.setItem('naked-canvas-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark'); } catch {}
-});
-try { if (localStorage.getItem('naked-canvas-theme') === 'light') document.body.classList.add('light-theme'); } catch {}
-document.querySelectorAll('[data-scroll]').forEach(button => button.addEventListener('click', () => $(button.dataset.scroll).scrollIntoView({ behavior: 'smooth' })));
-document.querySelectorAll('.nav-link').forEach(button => button.addEventListener('click', () => {
-  document.querySelectorAll('.nav-link').forEach(item => item.classList.toggle('active', item === button));
-  $(button.dataset.target).scrollIntoView({ behavior: 'smooth' });
-}));
-
-renderArtworks(); renderPoses(); renderSaved(); updateSavedCount();
+  updateSavedCount(); renderGallery(); renderPoses(); renderSaved(); buildPrompt();
+  // The museum list is a deferred remote metadata script. Refresh once after the initial parse.
+  window.addEventListener('load', () => { if (museumRecords().length) renderGallery(); });
+})();

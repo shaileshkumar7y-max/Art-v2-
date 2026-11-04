@@ -1,0 +1,43 @@
+diff --git a/index.html b/index.html
+--- a/index.html
++++ b/index.html
+@@ -42 +42 @@
+-        <img class="hero-image" src="../blacked-luxury-campaign.webp" alt="Black luxury Halloween-inspired fashion campaign" fetchpriority="high">
++        <img class="hero-image" src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/blacked-luxury-campaign.webp" alt="Black luxury Halloween-inspired fashion campaign" fetchpriority="high">
+@@ -72 +72 @@
+-            <img src="../her-after-dark.webp" alt="HER AFTER DARK campaign styling" loading="lazy">
++            <img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/her-after-dark.webp" alt="HER AFTER DARK campaign styling" loading="lazy">
+@@ -76 +76 @@
+-            <img src="../mughal-royal-romance-poster.webp" alt="Royal romantic campaign artwork" loading="lazy">
++            <img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/mughal-royal-romance-poster.webp" alt="Royal romantic campaign artwork" loading="lazy">
+@@ -80 +80 @@
+-            <img src="../black-elegance-fashion.webp" alt="Black elegance editorial styling" loading="lazy">
++            <img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/black-elegance-fashion.webp" alt="Black elegance editorial styling" loading="lazy">
+@@ -96 +96 @@
+-        <article class="lookbook-card"><img src="../pink-lace-collection.webp" alt="Pink lace fashion collection"><div><span>SOFT GOTHIC</span><h2>Rose <em>After Dark</em></h2><span class="coming-label">COLLECTION INTEGRATION / PHASE 4</span></div></article>
++        <article class="lookbook-card"><img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/pink-lace-collection.webp" alt="Pink lace fashion collection"><div><span>SOFT GOTHIC</span><h2>Rose <em>After Dark</em></h2><span class="coming-label">COLLECTION INTEGRATION / PHASE 4</span></div></article>
+@@ -97 +97 @@
+-        <article class="lookbook-card"><img src="../royal-palace-saree.webp" alt="Royal fashion editorial"><div><span>GOTHIC ROYALTY</span><h2>Velvet <em>Royale</em></h2><span class="coming-label">COLLECTION INTEGRATION / PHASE 4</span></div></article>
++        <article class="lookbook-card"><img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/royal-palace-saree.webp" alt="Royal fashion editorial"><div><span>GOTHIC ROYALTY</span><h2>Velvet <em>Royale</em></h2><span class="coming-label">COLLECTION INTEGRATION / PHASE 4</span></div></article>
+@@ -99 +99 @@
+-      <section class="wellness-preview"><div><p class="eyebrow">COMFORT FIRST</p><h2>Feel good in<br><em>your own skin.</em></h2><p class="muted">Fit, fabric, comfort and body-positive wellness guidance will live here—not hidden behind a sales pitch.</p></div><img src="../fit-guide-detail.webp" alt="Fit guide editorial detail" loading="lazy"></section>
++      <section class="wellness-preview"><div><p class="eyebrow">COMFORT FIRST</p><h2>Feel good in<br><em>your own skin.</em></h2><p class="muted">Fit, fabric, comfort and body-positive wellness guidance will live here—not hidden behind a sales pitch.</p></div><img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/fit-guide-detail.webp" alt="Fit guide editorial detail" loading="lazy"></section>
+@@ -116,2 +116,2 @@
+-      <div class="page-intro"><p class="eyebrow">THE VISUAL ARCHIVE</p><h1>Art after<br><em>dark.</em></h1><p class="muted">A dedicated home for curated artwork, pose references, collections and the creator studio. The complete Art-v2 integration is Phase 3.</p></div>
+-      <div class="art-feature"><img src="../user-art-preview-01.webp" alt="Curated figure-art preview" loading="lazy"><div><p class="eyebrow">NAKED CANVAS / ART STUDIO</p><h2>Beauty in every<br><em>brushstroke.</em></h2><p class="muted">Classical art, gesture, portraits and editorial studies in one calm, searchable archive.</p><a class="button button-primary" href="https://shaileshkumar7y-max.github.io/Art-v2-/" target="_blank" rel="noopener noreferrer">Open current Art Studio ↗</a></div></div>
++      <div class="page-intro"><p class="eyebrow">THE VISUAL ARCHIVE</p><h1>Art after<br><em>dark.</em></h1><p class="muted">The unified Art Studio is now part of this website: curated museum works, studio images, pose references and a fine-art prompt builder.</p></div>
++      <div class="art-feature"><img src="https://raw.githubusercontent.com/shaileshkumar7y-max/Art-v2-/main/sepia-classical-figure-study.webp" alt="Curated figure-art preview" loading="lazy"><div><p class="eyebrow">NAKED CANVAS / ART STUDIO</p><h2>Beauty in every<br><em>brushstroke.</em></h2><p class="muted">Classical art, gesture, portraits and editorial studies in one calm, searchable archive.</p><a class="button button-primary" href="./art/">Open integrated Art Studio ↗</a></div></div>
+diff --git a/app.js b/app.js
+--- a/app.js
++++ b/app.js
+@@ -74,5 +74,5 @@
+-    ['Vampire Velvet', 'Black tailored layers, oxblood accents, velvet texture and a single antique-gold accessory.', '../blacked-luxury-campaign.webp'],
+-    ['Midnight Masquerade', 'A sleek dark outfit, sculptural mask, polished shoes and one statement detail.', '../black-elegance-fashion.webp'],
+-    ['Witching Hour', 'Deep plum layers, a flowing silhouette, subtle metallic accents and comfortable shoes.', '../mughal-royal-romance-poster.webp'],
+-    ['Dark Rose', 'Black base, rose-toned accents, soft lace-inspired texture and understated jewellery.', '../pink-lace-collection.webp'],
+-    ['Gothic Royalty', 'A structured silhouette, rich fabric texture and a restrained gold finish.', '../royal-palace-saree.webp']
++    ['Vampire Velvet', 'Black tailored layers, oxblood accents, velvet texture and a single antique-gold accessory.', 'https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/blacked-luxury-campaign.webp'],
++    ['Midnight Masquerade', 'A sleek dark outfit, sculptural mask, polished shoes and one statement detail.', 'https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/black-elegance-fashion.webp'],
++    ['Witching Hour', 'Deep plum layers, a flowing silhouette, subtle metallic accents and comfortable shoes.', 'https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/mughal-royal-romance-poster.webp'],
++    ['Dark Rose', 'Black base, rose-toned accents, soft lace-inspired texture and understated jewellery.', 'https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/pink-lace-collection.webp'],
++    ['Gothic Royalty', 'A structured silhouette, rich fabric texture and a restrained gold finish.', 'https://raw.githubusercontent.com/shaileshkumar7y-max/Game-/main/royal-palace-saree.webp']
